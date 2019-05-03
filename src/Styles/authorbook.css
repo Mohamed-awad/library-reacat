@@ -1,0 +1,37 @@
+.BookInfo{
+    margin: 0.5% 0 0 3%;
+    color: red;
+    padding: 0% 3% ;
+    border: 1px solid #c4c4c4;
+    width: 95%;
+}
+
+.authorImg{
+    border: none;
+    /*width: 10%;*/
+    margin-right: 40px;
+}
+
+.authorInfo{
+    width: 25%;
+}
+
+.authorInfo p{
+    margin-top: 50px;
+
+}
+.HeaderBook h2{
+    border: 1px solid black;
+    position: relative;
+    width: 230px;
+    top: -20px;
+    padding: 5px;
+    background: white;
+}
+
+.AuthorProfile{
+    margin-bottom: 40px;
+    padding: .5% 3% ;
+    border: 1px solid black;
+}
+
