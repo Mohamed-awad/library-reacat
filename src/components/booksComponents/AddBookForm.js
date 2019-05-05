@@ -12,12 +12,7 @@ import {
     ModalHeader,
     Table
 } from "reactstrap";
-import GetBooks from "../../service/book";
-import DeleteBook from "../../service/delBook";
-import GetCategories from "../../service/category";
-import AddBook from "../../service/addBook";
-import GetAuthors from "../../service/author";
-import EditBook from "../../service/editBook";
+
 
 class AddBookForm extends Component{
 

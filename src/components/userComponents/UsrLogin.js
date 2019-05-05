@@ -1,7 +1,6 @@
 import React from 'react';
 import {Button, Form, FormGroup, Label, Input} from 'reactstrap';
-import Cookies from "universal-cookie";
-import LoginUser from "../../service/userLogin";
+
 import "../../App.css"
 import axios from "axios";
 

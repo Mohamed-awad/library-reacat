@@ -7,18 +7,14 @@ import NavAdmin from "./components/sharecompo/NavAdmin";
 import Footer from "./components/sharecompo/Footer";
 
 import Books from "./components/booksComponents/books";
-import BooksAdmin from "./components/adminComponents/books";
 import BookProfile from "./components/booksComponents/bookprofil";
 
-import AdminLogin from "./components/adminComponents/AdminLogin"
-import AdminControl from "./components/adminComponents/AdminControl";
 
 import UsrLogin from "./components/userComponents/UsrLogin";
 import UsrSignUp from "./components/userComponents/UsrSignUp";
 import UserPage from "./components/userComponents/userPage";
 
 
-import Search from "./components/search";
 
 import FavorietBooks from './components/booksComponents/favoriet'
 
@@ -48,16 +44,12 @@ class App extends React.Component {
                     <Route path='/books/:id' exact component={Footer}/>
 
                     <Route path='/admin' exact component={NavAdmin}/>
-                    <Route path='/admin' exact component={BooksAdmin}/>
                     <Route path='/admin' exact component={Footer}/>
 
                     <Route path='/favourite/:id' exact component={Nav}/>
                     <Route path='/favourite/:id' exact component={FavorietBooks}/>
                     <Route path='/favourite/:id' exact component={Footer}/>
 
-                    <Route path="/search/:value" exact component={Search}/>
-
-                    <Route path="/AdminControls" exact component={AdminControl}/>
                 </div>
             </BrowserRouter>
         );
