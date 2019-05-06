@@ -14,6 +14,7 @@ import UsrLogin from "./components/userComponents/UsrLogin";
 import UsrSignUp from "./components/userComponents/UsrSignUp";
 import UserPage from "./components/userComponents/userPage";
 
+import Chart from "./components/chartComponent/chart";
 
 
 import FavorietBooks from './components/booksComponents/favoriet'
@@ -49,6 +50,8 @@ class App extends React.Component {
                     <Route path='/favourite/:id' exact component={Nav}/>
                     <Route path='/favourite/:id' exact component={FavorietBooks}/>
                     <Route path='/favourite/:id' exact component={Footer}/>
+
+                    <Route path='/profits' exact component={Chart}/>
 
                 </div>
             </BrowserRouter>
