@@ -13,7 +13,7 @@ import BookProfile from "./components/booksComponents/bookprofil";
 import UsrLogin from "./components/userComponents/UsrLogin";
 import UsrSignUp from "./components/userComponents/UsrSignUp";
 import UserPage from "./components/userComponents/userPage";
-
+import AdminControl from "./components/adminPanal/adminControl";
 
 
 import FavorietBooks from './components/booksComponents/favoriet'
@@ -49,6 +49,8 @@ class App extends React.Component {
                     <Route path='/favourite/:id' exact component={Nav}/>
                     <Route path='/favourite/:id' exact component={FavorietBooks}/>
                     <Route path='/favourite/:id' exact component={Footer}/>
+
+		    <Route path="/AdminControl" exact component={AdminControl}/>
 
                 </div>
             </BrowserRouter>
