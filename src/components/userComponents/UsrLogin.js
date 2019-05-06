@@ -53,20 +53,18 @@ class UrsLogin extends React.Component {
                     console.log(res.data.user);
                     localStorage.setItem("TOKEN", res.data.token);
                     localStorage.setItem("USER", JSON.stringify(res.data.user));
-                    //     if(res.data.user.isadmin){
-                    //         window.location = "http://localhost:3000/admin";
-                    //     }else{
                     if (res.data.user.isActive) {
                         window.location = "http://localhost:3000/books";
                     } else {
                         alert("sorry you are inactive")
                     }
-                    //     }
                 } else {
                     alert("invalid email or password");
                     window.location = "http://localhost:3000/";
                 }
-            });
+            }).catch((err)=>{
+                console.log(err);
+        });
     }
 
     render() {
