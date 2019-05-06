@@ -1,5 +1,5 @@
 import React , {Component} from 'react';
-import '../Styles/AdminPanel.css';
+import '../../Styles/AdminPanel.css';
 import {
     Col,
     Nav,
@@ -16,10 +16,9 @@ import AddCategoryForm from "./AddCategoryForm";
 import AddBookForm from "./AddBookForm";
 import AddAuthorForm from "./AddAuthorForm";
 import AddManagersForm from "./AddManagersForm";
-import Cookies from 'universal-cookie';
-import GetBooks from "../service/book";
-import GetCategories from "../service/category";
-import GetAuthors from "../service/author";
+import GetBooks from "../../service/book/book";
+import GetCategories from "../../service/category/category";
+import GetAuthors from "../../service/author";
 
 
 class AdminControl extends Component {
@@ -40,10 +39,9 @@ class AdminControl extends Component {
     }
 
     componentDidMount(){
-        let cookies = new Cookies();
-        // if (!cookies.get('token')) {
-            // window.location = "http://localhost:3000/admin";
-        // }
+        if (!localStorage.getItem('TOKEN')) {
+            window.location = "http://localhost:3000/";
+        }
     }
 
     handle_modal() {

@@ -1,10 +1,10 @@
 import React , {Component} from 'react';
 import {Button, Form, FormGroup, Input, Label, ModalBody, ModalFooter, ModalHeader, Table} from "reactstrap";
 import {Modal} from "reactstrap"
-import GetAuthors from "../service/author";
-import AddAuthor from "../service/addAuthor";
-import DeleteAuthor from "../service/delAuthor";
-import EditAuthor from "../service/editAuthor";
+// import GetAuthors from "../service/author";
+// import AddAuthor from "../service/addAuthor";
+// import DeleteAuthor from "../service/delAuthor";
+// import EditAuthor from "../service/editAuthor";
 
 class AddAuthorForm extends Component {
 
@@ -32,12 +32,12 @@ class AddAuthorForm extends Component {
         }));
     }
     componentDidMount(){
-      GetAuthors()
-      .then(data => {
-        this.setState({
-            authors: data,
-        })
-      });
+      // GetAuthors()
+      // .then(data => {
+      //   this.setState({
+      //       authors: data,
+      //   })
+      // });
     }
 
     handle_updateAuthor =(event)=>{
@@ -80,46 +80,46 @@ class AddAuthorForm extends Component {
         }
         else {
           console.log(this.state.newAuthor);
-          AddAuthor(this.state.newAuthor).then(data => {
-            console.log(data);
-            GetAuthors()
-                .then(data => {
-                  this.setState({
-                    authors: data,
-                    newAuthor: "",
-                  });
-                  alert("New Author added successfully");
-                });
-          });
+          // AddAuthor(this.state.newAuthor).then(data => {
+          //   console.log(data);
+          //   GetAuthors()
+          //       .then(data => {
+          //         this.setState({
+          //           authors: data,
+          //           newAuthor: "",
+          //         });
+          //         alert("New Author added successfully");
+          //       });
+          // });
         }
     }
 
     handle_EditAuthor =()=>{
         console.log(this.state.newAuthor);
-        EditAuthor(this.state.newAuthor).then(data => {
-          console.log(data);
-            GetAuthors()
-            .then(data => {
-                this.setState({
-                    authors: data,
-                    newAuthor : "",
-                });
-            });
-        });
+        // EditAuthor(this.state.newAuthor).then(data => {
+        //   console.log(data);
+        //     GetAuthors()
+        //     .then(data => {
+        //         this.setState({
+        //             authors: data,
+        //             newAuthor : "",
+        //         });
+        //     });
+        // });
     }
 
     deletRow = (index) =>{
         const authors = [...this.state.authors];
         console.log(authors[index.target.value]._id);
-        DeleteAuthor(authors[index.target.value]._id).then((data) => {
-            console.log(data);
-            GetAuthors().then(data => {
-            this.setState({
-              authors: data,
-              newAuthor : "",
-            });
-          });
-        });
+        // DeleteAuthor(authors[index.target.value]._id).then((data) => {
+        //     console.log(data);
+        //     GetAuthors().then(data => {
+        //     this.setState({
+        //       authors: data,
+        //       newAuthor : "",
+        //     });
+        //   });
+        // });
 
     }
 

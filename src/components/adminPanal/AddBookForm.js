@@ -12,12 +12,12 @@ import {
     ModalHeader,
     Table
 } from "reactstrap";
-import GetBooks from "../service/book";
-import DeleteBook from "../service/delBook";
-import GetCategories from "../service/category";
-import AddBook from "../service/addBook";
-import GetAuthors from "../service/author";
-import EditBook from "../service/editBook";
+import GetBooks from "../../service/book/book";
+// import DeleteBook from "../../service/delBook";
+import GetCategories from "../../service/category/category";
+// import AddBook from "../../service/addBook";
+// import GetAuthors from "../../service/author";
+// import EditBook from "../../service/editBook";
 
 class AddBookForm extends Component{
 
@@ -36,27 +36,27 @@ class AddBookForm extends Component{
 
 
     handle_modal() {
-        GetCategories()
-              .then(data => {
-                  console.log("1");
-                this.setState({
-                    categories: data,
-                    newBook: {...this.state.newBook, categoryId: data[0]._id},
-                });
-              }).then(() => {
-                  GetAuthors()
-                  .then(data => {
-                      console.log("2");
-                    this.setState({
-                        authors: data,
-                        newBook: {...this.state.newBook, authorId: data[0]._id},
-                    })
-                  }).then(() => {
-                      this.setState(prevState => ({
-                        modal: !prevState.modal
-                      }));
-                  });
-            });
+        // GetCategories()
+        //       .then(data => {
+        //           console.log("1");
+        //         this.setState({
+        //             categories: data,
+        //             newBook: {...this.state.newBook, categoryId: data[0]._id},
+        //         });
+        //       }).then(() => {
+        //           GetAuthors()
+        //           .then(data => {
+        //               console.log("2");
+        //             this.setState({
+        //                 authors: data,
+        //                 newBook: {...this.state.newBook, authorId: data[0]._id},
+        //             })
+        //           }).then(() => {
+        //               this.setState(prevState => ({
+        //                 modal: !prevState.modal
+        //               }));
+        //           });
+        //     });
     }
 
     handle_updateBook =(event)=>{
@@ -102,67 +102,68 @@ class AddBookForm extends Component{
             alert("please enter valid book name");
         }
         else {
-            AddBook(this.state.newBook).then(data => {
-                console.log(data);
-                GetBooks().then((data) => {
-                    this.setState({
-                        books: data,
-                        newBook: '',
-                    });
-                    alert("book added successfully");
-                })
-            });
+            // AddBook(this.state.newBook).then(data => {
+            //     console.log(data);
+            //     GetBooks().then((data) => {
+            //         this.setState({
+            //             books: data,
+            //             newBook: '',
+            //         });
+            //         alert("book added successfully");
+            //     })
+            // });
         }
     }
 
     handle_EditBook =()=>{
         console.log(this.state.newBook);
-        EditBook(this.state.newBook).then(data => {
-            console.log(data);
-            GetBooks().then((data) => {
-                this.setState({
-                    books: data,
-                    newBook :'',
-                });
-            })
-        });
+        // EditBook(this.state.newBook).then(data => {
+        //     console.log(data);
+        //     GetBooks().then((data) => {
+        //         this.setState({
+        //             books: data,
+        //             newBook :'',
+        //         });
+        //     })
+        // });
     }
 
     deletRow = (index) =>{
         const books = [...this.state.books];
         console.log(books[index.target.value]._id);
-        DeleteBook(books[index.target.value]._id).then((data) => {
-            console.log(data);
-            GetBooks().then(data => {
-                this.setState({
-                    books: data,
-                    newBook: "",
-                });
-            });
-        });
+        // DeleteBook(books[index.target.value]._id).then((data) => {
+        //     console.log(data);
+        //     GetBooks().then(data => {
+        //         this.setState({
+        //             books: data,
+        //             newBook: "",
+        //         });
+        //     });
+        // });
     }
 
     componentDidMount(){
       GetBooks()
       .then(data => {
+          console.log(data);
         this.setState({
-            books: data,
+            books: data.data,
         })
       });
-      GetCategories()
-      .then(data => {
-        this.setState({
-            categories: data,
-            newBook: {...this.state.newBook, categoryId: data[0]._id},
-        });
-      });
-      GetAuthors()
-      .then(data => {
-        this.setState({
-            authors: data,
-            newBook: {...this.state.newBook, authorId: data[0]._id},
-        })
-      });
+      // GetCategories()
+      // .then(data => {
+      //   this.setState({
+      //       categories: data.data,
+      //       newBook: {...this.state.newBook, categoryId: data.data[0].id},
+      //   });
+      // });
+      // GetAuthors()
+      // .then(data => {
+      //   this.setState({
+      //       authors: data,
+      //       newBook: {...this.state.newBook, authorId: data[0]._id},
+      //   })
+      // });
     }
 
     render() {
@@ -286,22 +287,24 @@ class AddBookForm extends Component{
                     </thead>
 
                     <thead>
-                    {this.state.books.map((book , index) =>
-                        <tr>
-                            <th>{index+1}</th>
-                            <th key={index}>
-                                <img src={"http://localhost:4000/"+book.photo}
+                    {this.state.books.map((book) =>
+                        <tr key={book.id}>
+                            <th>{book.category.name}</th>
+                            <th>{book.title}</th>
+                            <th>{book.description}</th>
+                            <th>{book.author}</th>
+                            <th key={book.id}>
+                                <img src={"http://localhost:8001/api/books/"+book.image}
                                      width="50" height="50" alt="error image"/>
                             </th>
-                            <th>{book.name}</th>
-                            <th>{book.categoryId.name}</th>
-                            <th>{book.authorId.firstName +" "+book.authorId.lastName}</th>
+                            <th>{book.NumberOfBook}</th>
+                            <th>{book.leasePerDay}</th>
                             <th>
                                 <button value={JSON.stringify(book)} type="button"
                                         className="btn btn-info"
                                         name="edit"
                                         onClick={this.handling_modal}>Edit</button> {" "}
-                                <button value= {index} onClick={this.deletRow.bind(this)}
+                                <button value= {book.id} onClick={this.deletRow.bind(this)}
                                     type="button" className="btn btn-danger">Delete</button> </th>
                         </tr>)}
 

@@ -1,10 +1,10 @@
 import React , {Component} from 'react';
 import {Button, Col, Form, FormGroup, Input, Label, ModalBody, ModalFooter, ModalHeader, Table} from "reactstrap";
 import {Modal} from "reactstrap"
-import GetCategories from "../service/category";
-import DeleteCategory from '../service/delCategory';
-import AddCategory from "../service/addCategory";
-import EditCategory from "../service/editCategory";
+import GetCategories from "../../service/category/category";
+import DeleteCategory from '../../service/category/delCategory';
+import AddCategory from "../../service/category/addCategory";
+import EditCategory from "../../service/category/editCategory";
 
 class AddCategoryForm extends Component {
 
@@ -13,6 +13,7 @@ class AddCategoryForm extends Component {
         this.state={
             modalIsOpen: false,
             newCategory: "",
+            catDes: "",
             categories : [],
         };
         this.handle_modal = this.handle_modal.bind(this);
@@ -37,7 +38,6 @@ class AddCategoryForm extends Component {
     }
 
 
-
     handle_updateCategory =(event)=>{
         if(event.target.name === "edit"){
             let data = JSON.parse(event.target.value);
@@ -48,9 +48,19 @@ class AddCategoryForm extends Component {
             this.setState({
                 newCategory: {...this.state.newCategory, name: event.target.value},
             });
-        } else {
+        } else if(event.target.name === "des_edit") {
+            this.setState({
+                newCategory: {...this.state.newCategory, description: event.target.value},
+            });
+        } else if(event.target.name === "name_add") {
+
             this.setState({
                 newCategory: event.target.value,
+            });
+        } else if(event.target.name === "name_des") {
+
+            this.setState({
+                catDes: event.target.value,
             });
         }
 
@@ -62,13 +72,15 @@ class AddCategoryForm extends Component {
         }
         else {
             AddCategory({
-            'name': this.state.newCategory,
+                'name': this.state.newCategory,
+                'description': this.state.catDes
             }).then(data => {
                 GetCategories()
                 .then(data => {
                     this.setState({
-                        categories: data,
+                        categories: data.data,
                         newCategory : "",
+                        catDes: "",
                     });
                     alert("category added successfully");
                 });
@@ -79,14 +91,15 @@ class AddCategoryForm extends Component {
 
     handle_EditCategory =()=>{
         EditCategory(this.state.newCategory).then(data => {
-            console.log(data);
             GetCategories()
             .then(data => {
-                console.log(data);
+
                 this.setState({
-                    categories: data,
+                    categories: data.data,
                     newCategory : "",
+                    catDes: "",
                 });
+                alert("category updated successfully");
             });
         });
     }
@@ -96,18 +109,19 @@ class AddCategoryForm extends Component {
       GetCategories()
       .then(data => {
         this.setState({
-            categories: data,
+            categories: data.data,
         })
       });
     }
 
     deletRow = (index) =>{
         const categories = [...this.state.categories];
-        console.log(categories[index.target.value]._id);
-        DeleteCategory(categories[index.target.value]._id).then((data) => {
+        // console.log(index.target.value);
+        // console.log(categories);
+        DeleteCategory(categories[index.target.value-1].data.id).then((data) => {
             console.log(data);
         });
-        categories.splice(index.target.value,1);
+        categories.splice(index.target.value-1,1);
         this.setState({categories});
     }
 
@@ -127,8 +141,8 @@ class AddCategoryForm extends Component {
                                onChange={this.handle_updateCategory} />
                     </FormGroup>
                     <FormGroup>
-                        <Input type="name" name="name_add" id="name" placeholder="Description"
-                               value={this.state.newCategory}
+                        <Input type="name" name="name_des" id="name" placeholder="Description"
+                               value={this.state.catDes}
                                onChange={this.handle_updateCategory} />
                     </FormGroup>
                 </ModalBody>
@@ -150,8 +164,8 @@ class AddCategoryForm extends Component {
                                    placeholder="Edit Category"  />
                         </FormGroup>
                         <FormGroup>
-                            <Input value={this.state.newCategory.name} type="name"
-                                   name="name_edit" id="name"
+                            <Input value={this.state.newCategory.description} type="name"
+                                   name="des_edit" id="name"
                                    onChange={this.handle_updateCategory}
                                    placeholder="Edit Description"  />
                         </FormGroup>
@@ -173,19 +187,19 @@ class AddCategoryForm extends Component {
                     </tr>
                     </thead>
                     <thead>
-                    {this.state.categories.map((category , index) =>
-                        <tr>
-                            <th>{index+1}</th>
-                            <th key={index}>
-                                {category.name}
+                    {this.state.categories.map((category) =>
+                        <tr key={category.data.id}>
+                            <th>{category.data.name}</th>
+                            <th key={category.data.id}>
+                                {category.data.description}
                             </th>
                             <th>
-                                <button value={JSON.stringify(category)} type="button"
+                                <button value={JSON.stringify(category.data)} type="button"
                                         name="edit"
                                         className="btn btn-info"
                                         onClick={this.handling_modal}
                                         >Edit</button> {" "}
-                                <button value={index} onClick={this.deletRow.bind(this)}
+                                <button value={category.data.id} onClick={this.deletRow.bind(this)}
                                     type="button" className="btn btn-danger">Delete</button> </th>
                         </tr>)}
                     </thead>
