@@ -2,36 +2,11 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="b625fa6f-1beb-4f2d-9982-8619811ba558" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/service/addAuthor.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/service/addReview.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/service/admin.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/service/author.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/service/book/addBook.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/service/book/book.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/service/book/delBook.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/service/book/editBook.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/service/category/addCategory.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/service/category/category.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/service/category/delCategory.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/service/category/editCategory.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/service/currentAuthor.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/service/currentBook.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/service/delAuthor.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/service/editAuthor.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/service/getReview.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/service/getuser.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/service/search.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/service/updateReadingStatus.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/service/userLogin.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/service/userSignUp.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/App.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/App.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/adminPanal/AddAuthorForm.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/adminPanal/AddAuthorForm.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/adminPanal/AddBookForm.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/adminPanal/AddBookForm.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/adminPanal/AddCategoryForm.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/adminPanal/AddCategoryForm.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/adminPanal/AdminControl.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/adminPanal/AdminControl.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/categoryComponents/AddCategoryForm.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/categoryComponents/AddCategoryForm.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/userComponents/UsrLogin.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/userComponents/UsrLogin.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/service/book/book.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/service/book/book.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/service/category/category.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/service/category/category.js" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
@@ -47,8 +22,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/components/adminPanal/AddBookForm.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="360">
-              <caret line="300" column="55" selection-start-line="300" selection-start-column="55" selection-end-line="300" selection-end-column="55" />
+            <state relative-caret-position="459">
+              <caret line="50" column="5" selection-start-line="50" selection-start-column="5" selection-end-line="50" selection-end-column="5" />
               <folding>
                 <element signature="e#0#40#0" expanded="true" />
               </folding>
@@ -57,10 +32,43 @@
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/service/category/category.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="189">
+              <caret line="7" column="22" selection-start-line="7" selection-start-column="22" selection-end-line="7" selection-end-column="22" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/components/adminPanal/AddCategoryForm.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1">
+            <state relative-caret-position="4968">
               <caret line="190" column="49" selection-start-line="190" selection-start-column="47" selection-end-line="190" selection-end-column="49" />
+              <folding>
+                <element signature="e#0#40#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/components/userComponents/UsrLogin.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="1323">
+              <caret line="53" column="58" selection-start-line="53" selection-start-column="58" selection-end-line="53" selection-end-column="58" />
+              <folding>
+                <element signature="e#0#26#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/components/adminPanal/AdminControl.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="2322">
+              <caret line="106" column="53" selection-start-line="106" selection-end-line="107" />
               <folding>
                 <element signature="e#0#40#0" expanded="true" />
               </folding>
@@ -71,8 +79,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/service/book/book.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="27">
-              <caret line="1" column="48" selection-start-line="1" selection-start-column="48" selection-end-line="1" selection-end-column="48" />
+            <state relative-caret-position="135">
+              <caret line="5" column="17" lean-forward="true" selection-start-line="5" selection-start-column="17" selection-end-line="5" selection-end-column="17" />
             </state>
           </provider>
         </entry>
@@ -91,6 +99,7 @@
       <find>handling_modal</find>
       <find>name_edit</find>
       <find>DeleteCategory</find>
+      <find>handle_modal</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -106,14 +115,14 @@
         <option value="$PROJECT_DIR$/.gitignore" />
         <option value="$PROJECT_DIR$/src/components/adminPanal/AddAuthorForm.js" />
         <option value="$PROJECT_DIR$/src/App.js" />
-        <option value="$PROJECT_DIR$/src/components/userComponents/UsrLogin.js" />
         <option value="$PROJECT_DIR$/src/components/adminPanal/AdminControl.js" />
-        <option value="$PROJECT_DIR$/src/service/category/category.js" />
         <option value="$PROJECT_DIR$/src/service/category/addCategory.js" />
         <option value="$PROJECT_DIR$/src/service/category/editCategory.js" />
         <option value="$PROJECT_DIR$/src/service/category/delCategory.js" />
         <option value="$PROJECT_DIR$/src/components/adminPanal/AddCategoryForm.js" />
         <option value="$PROJECT_DIR$/src/service/book/book.js" />
+        <option value="$PROJECT_DIR$/src/service/category/category.js" />
+        <option value="$PROJECT_DIR$/src/components/userComponents/UsrLogin.js" />
         <option value="$PROJECT_DIR$/src/components/adminPanal/AddBookForm.js" />
       </list>
     </option>
@@ -130,6 +139,7 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -159,6 +169,13 @@
               <item name="library-react" type="b2602c69:ProjectViewProjectNode" />
               <item name="library-react" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="components" type="462c0819:PsiDirectoryNode" />
+              <item name="userComponents" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="library-react" type="b2602c69:ProjectViewProjectNode" />
+              <item name="library-react" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="service" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
@@ -168,11 +185,17 @@
               <item name="service" type="462c0819:PsiDirectoryNode" />
               <item name="book" type="462c0819:PsiDirectoryNode" />
             </path>
+            <path>
+              <item name="library-react" type="b2602c69:ProjectViewProjectNode" />
+              <item name="library-react" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="service" type="462c0819:PsiDirectoryNode" />
+              <item name="category" type="462c0819:PsiDirectoryNode" />
+            </path>
           </expand>
           <select />
         </subPane>
       </pane>
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -213,18 +236,19 @@
       <option name="presentableId" value="Default" />
       <updated>1557077500837</updated>
       <workItem from="1557077506929" duration="1995000" />
-      <workItem from="1557080111662" duration="12629000" />
+      <workItem from="1557080111662" duration="17362000" />
+      <workItem from="1557235269707" duration="124000" />
+      <workItem from="1557252505034" duration="2000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="14624000" />
+    <option name="totallyTimeSpent" value="19483000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="71" y="25" width="1849" height="1055" extended-state="6" />
-    <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.18835804" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.18835804" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="npm" order="2" side_tool="true" />
       <window_info id="Favorites" order="3" side_tool="true" />
@@ -239,7 +263,7 @@
       <window_info anchor="bottom" id="Docker" order="8" show_stripe_button="false" />
       <window_info anchor="bottom" id="Version Control" order="9" />
       <window_info anchor="bottom" id="Event Log" order="10" side_tool="true" />
-      <window_info anchor="bottom" id="Terminal" order="11" visible="true" weight="0.27704194" />
+      <window_info active="true" anchor="bottom" id="Terminal" order="11" visible="true" weight="0.27704194" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
@@ -310,26 +334,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/components/adminPanal/AdminControl.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="135">
-          <caret line="41" column="34" lean-forward="true" selection-start-line="41" selection-start-column="34" selection-end-line="41" selection-end-column="34" />
-          <folding>
-            <element signature="e#0#40#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/components/userComponents/UsrLogin.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="81">
-          <caret line="53" column="47" selection-start-line="53" selection-start-column="42" selection-end-line="53" selection-end-column="47" />
-          <folding>
-            <element signature="e#0#26#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/components/adminPanal/AddAuthorForm.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="13">
@@ -359,13 +363,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/service/category/delCategory.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="135">
-          <caret line="5" column="53" selection-start-line="5" selection-start-column="53" selection-end-line="5" selection-end-column="53" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/service/category/editCategory.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="27">
@@ -376,23 +373,36 @@
     <entry file="file://$PROJECT_DIR$/src/service/category/addCategory.js">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/service/category/category.js">
+    <entry file="file://$PROJECT_DIR$/src/service/addAuthor.js">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/service/category/delCategory.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="27">
-          <caret line="1" column="42" selection-start-line="1" selection-start-column="42" selection-end-line="1" selection-end-column="42" />
+        <state relative-caret-position="297">
+          <caret line="11" column="4" lean-forward="true" selection-start-line="11" selection-start-column="4" selection-end-line="11" selection-end-column="4" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/service/book/book.js">
+    <entry file="file://$PROJECT_DIR$/src/components/adminPanal/AddBookForm.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="27">
-          <caret line="1" column="48" selection-start-line="1" selection-start-column="48" selection-end-line="1" selection-end-column="48" />
+        <state relative-caret-position="459">
+          <caret line="50" column="5" selection-start-line="50" selection-start-column="5" selection-end-line="50" selection-end-column="5" />
+          <folding>
+            <element signature="e#0#40#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/service/category/category.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="189">
+          <caret line="7" column="22" selection-start-line="7" selection-start-column="22" selection-end-line="7" selection-end-column="22" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/components/adminPanal/AddCategoryForm.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1">
+        <state relative-caret-position="4968">
           <caret line="190" column="49" selection-start-line="190" selection-start-column="47" selection-end-line="190" selection-end-column="49" />
           <folding>
             <element signature="e#0#40#0" expanded="true" />
@@ -400,13 +410,30 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/components/adminPanal/AddBookForm.js">
+    <entry file="file://$PROJECT_DIR$/src/components/userComponents/UsrLogin.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="360">
-          <caret line="300" column="55" selection-start-line="300" selection-start-column="55" selection-end-line="300" selection-end-column="55" />
+        <state relative-caret-position="1323">
+          <caret line="53" column="58" selection-start-line="53" selection-start-column="58" selection-end-line="53" selection-end-column="58" />
+          <folding>
+            <element signature="e#0#26#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/components/adminPanal/AdminControl.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2322">
+          <caret line="106" column="53" selection-start-line="106" selection-end-line="107" />
           <folding>
             <element signature="e#0#40#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/service/book/book.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="135">
+          <caret line="5" column="17" lean-forward="true" selection-start-line="5" selection-start-column="17" selection-end-line="5" selection-end-column="17" />
         </state>
       </provider>
     </entry>

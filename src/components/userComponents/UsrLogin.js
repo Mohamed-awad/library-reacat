@@ -51,7 +51,7 @@ class UrsLogin extends React.Component {
             .then(res => {
                 if (res.data.token) {
                     console.log(res.data.user);
-                    localStorage.setItem("TOKEN", res.data.token);
+                    localStorage.setItem("TOKEN", "Bearer " + res.data.token);
                     localStorage.setItem("USER", JSON.stringify(res.data.user));
                     if (res.data.user.isActive) {
                         if(res.data.user.isAdmin){

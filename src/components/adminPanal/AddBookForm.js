@@ -36,27 +36,18 @@ class AddBookForm extends Component{
 
 
     handle_modal() {
-        // GetCategories()
-        //       .then(data => {
-        //           console.log("1");
-        //         this.setState({
-        //             categories: data,
-        //             newBook: {...this.state.newBook, categoryId: data[0]._id},
-        //         });
-        //       }).then(() => {
-        //           GetAuthors()
-        //           .then(data => {
-        //               console.log("2");
-        //             this.setState({
-        //                 authors: data,
-        //                 newBook: {...this.state.newBook, authorId: data[0]._id},
-        //             })
-        //           }).then(() => {
-        //               this.setState(prevState => ({
-        //                 modal: !prevState.modal
-        //               }));
-        //           });
-        //     });
+      // GetCategories()
+      // .then(data => {
+      //     console.log("1");
+      //   this.setState({
+      //       categories: data.data,
+      //       newBook: {...this.state.newBook, categoryId: data.data[0].id},
+      //   });
+      // }).then(() => {
+          this.setState(prevState => ({
+            modal: !prevState.modal
+          }));
+      // });
     }
 
     handle_updateBook =(event)=>{
@@ -150,20 +141,13 @@ class AddBookForm extends Component{
             books: data.data,
         })
       });
-      // GetCategories()
-      // .then(data => {
-      //   this.setState({
-      //       categories: data.data,
-      //       newBook: {...this.state.newBook, categoryId: data.data[0].id},
-      //   });
-      // });
-      // GetAuthors()
-      // .then(data => {
-      //   this.setState({
-      //       authors: data,
-      //       newBook: {...this.state.newBook, authorId: data[0]._id},
-      //   })
-      // });
+      GetCategories()
+      .then(data => {
+        this.setState({
+            categories: data.data,
+            newBook: {...this.state.newBook, categoryId: data.data[0].id},
+        });
+      });
     }
 
     render() {
