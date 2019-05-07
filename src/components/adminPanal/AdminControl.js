@@ -14,7 +14,7 @@ import classnames from 'classnames';
 import Admin_Modal from "./AddCategoryForm";
 import AddCategoryForm from "./AddCategoryForm";
 import AddBookForm from "./AddBookForm";
-import AddAuthorForm from "./AddAuthorForm";
+import AddUserForm from "./AddUserForm";
 import AddManagersForm from "./AddManagersForm";
 import GetBooks from "../../service/book/book";
 import GetCategories from "../../service/category/category";
@@ -112,7 +112,7 @@ class AdminControl extends Component {
                         <TabPane tabId="3">
                             <Row>
                                 <Col sm="12">
-                                    <AddAuthorForm  cancel="cancel" title="Add users"/>
+                                    <AddUserForm cancel="cancel" title="Add users"/>
                                 </Col>
                             </Row>
                         </TabPane>

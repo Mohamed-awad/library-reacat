@@ -1,13 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="b625fa6f-1beb-4f2d-9982-8619811ba558" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/adminPanal/AddBookForm.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/adminPanal/AddBookForm.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/userComponents/UsrLogin.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/userComponents/UsrLogin.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/service/book/book.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/service/book/book.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/service/category/category.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/service/category/category.js" afterDir="false" />
-    </list>
+    <list default="true" id="b625fa6f-1beb-4f2d-9982-8619811ba558" name="Default Changelist" comment="" />
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
     <ignored path="$PROJECT_DIR$/tmp/" />
@@ -239,11 +233,12 @@
       <workItem from="1557080111662" duration="17362000" />
       <workItem from="1557235269707" duration="124000" />
       <workItem from="1557252505034" duration="2000" />
+      <workItem from="1557254966866" duration="263000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="19483000" />
+    <option name="totallyTimeSpent" value="19746000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="71" y="25" width="1849" height="1055" extended-state="6" />

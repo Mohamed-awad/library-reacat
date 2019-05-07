@@ -6,7 +6,7 @@ import {Modal} from "reactstrap"
 // import DeleteAuthor from "../service/delAuthor";
 // import EditAuthor from "../service/editAuthor";
 
-class AddAuthorForm extends Component {
+class AddUserForm extends Component {
 
     constructor(props) {
         super(props);
@@ -256,4 +256,4 @@ class AddAuthorForm extends Component {
             </div>);
     }
 }
-export default AddAuthorForm;
+export default AddUserForm;
