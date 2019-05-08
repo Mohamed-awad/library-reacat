@@ -13,11 +13,10 @@ import {
     Table
 } from "reactstrap";
 import GetBooks from "../../service/book/book";
-// import DeleteBook from "../../service/delBook";
+import DeleteBook from "../../service/book/delBook";
 import GetCategories from "../../service/category/category";
-// import AddBook from "../../service/addBook";
-// import GetAuthors from "../../service/author";
-// import EditBook from "../../service/editBook";
+import AddBook from "../../service/book/addBook";
+import EditBook from "../../service/book/editBook";
 
 class AddBookForm extends Component{
 
@@ -55,26 +54,39 @@ class AddBookForm extends Component{
             this.setState({
                newBook: JSON.parse(event.target.value),
             });
-        }
-        else if(event.target.name === "name") {
+        } else if(event.target.name === "name") {
             this.setState({
-                newBook: {...this.state.newBook, name: event.target.value,}
+                newBook: {...this.state.newBook, title: event.target.value,}
+            });
+        } else if(event.target.name === "description") {
+            this.setState({
+                newBook: {...this.state.newBook, description: event.target.value,}
             });
         } else if(event.target.name === "select") {
             console.log(event.target.value);
             this.setState({
-                newBook: {...this.state.newBook, categoryId: event.target.value,}
+                newBook: {...this.state.newBook, category_id: event.target.value,}
             });
         } else if(event.target.name === "select1") {
             console.log(event.target.value);
             this.setState({
-                newBook: {...this.state.newBook, authorId: event.target.value,}
+                newBook: {...this.state.newBook, author: event.target.value,}
+            });
+        } else if(event.target.name === "num_of_book") {
+            console.log(event.target.value);
+            this.setState({
+                newBook: {...this.state.newBook, NumberOfBook: event.target.value,}
+            });
+        } else if(event.target.name === "lease_per_day") {
+            console.log(event.target.value);
+            this.setState({
+                newBook: {...this.state.newBook, leasePerDay: event.target.value,}
             });
         } else if(event.target.name === "file") {
             let path = event.target.files[0];
             console.log(path);
             this.setState({
-                newBook: {...this.state.newBook, photo: path,}
+                newBook: {...this.state.newBook, image: path,}
             });
         }
     }
@@ -87,50 +99,49 @@ class AddBookForm extends Component{
     }
 
     handle_addBook =()=>{
-        if(!this.state.newBook.name ||
-            (/^ *$/.test(this.state.newBook.name)) ||
-            (/^$/.test(this.state.newBook.name))) {
-            alert("please enter valid book name");
+        if(!this.state.newBook.title ||
+            (/^ *$/.test(this.state.newBook.title)) ||
+            (/^$/.test(this.state.newBook.title))) {
+            alert("please enter valid book title");
         }
         else {
-            // AddBook(this.state.newBook).then(data => {
-            //     console.log(data);
-            //     GetBooks().then((data) => {
-            //         this.setState({
-            //             books: data,
-            //             newBook: '',
-            //         });
-            //         alert("book added successfully");
-            //     })
-            // });
+            AddBook(this.state.newBook).then(data => {
+                console.log(data);
+                GetBooks().then((data) => {
+                    this.setState({
+                        books: data.data,
+                        newBook: "",
+                    });
+                    alert("book added successfully");
+                })
+            });
         }
     }
 
     handle_EditBook =()=>{
         console.log(this.state.newBook);
-        // EditBook(this.state.newBook).then(data => {
-        //     console.log(data);
-        //     GetBooks().then((data) => {
-        //         this.setState({
-        //             books: data,
-        //             newBook :'',
-        //         });
-        //     })
-        // });
+        EditBook(this.state.newBook).then(data => {
+            console.log(data);
+            GetBooks().then((data) => {
+                this.setState({
+                    books: data.data,
+                    newBook :'',
+                });
+                alert("book updated successfully");
+            })
+        });
     }
 
     deletRow = (index) =>{
-        const books = [...this.state.books];
-        console.log(books[index.target.value]._id);
-        // DeleteBook(books[index.target.value]._id).then((data) => {
-        //     console.log(data);
-        //     GetBooks().then(data => {
-        //         this.setState({
-        //             books: data,
-        //             newBook: "",
-        //         });
-        //     });
-        // });
+        DeleteBook(index.target.value).then((data) => {
+            GetBooks().then(data => {
+                this.setState({
+                    books: data.data,
+                    newBook: "",
+                });
+                alert("book deleted successfully");
+            });
+        });
     }
 
     componentDidMount(){
@@ -145,7 +156,7 @@ class AddBookForm extends Component{
       .then(data => {
         this.setState({
             categories: data.data,
-            newBook: {...this.state.newBook, categoryId: data.data[0].id},
+            newBook: {...this.state.newBook, category_id: data.data[0].id},
         });
       });
     }
@@ -160,9 +171,15 @@ class AddBookForm extends Component{
                     <ModalBody>
                         <Form>
                             <FormGroup>
-                                <Label for="name">Book name</Label>
+                                <Label for="name">Book title</Label>
                                 <Input type="name" name="name" id="name"
-                                       placeholder="Book name" value={this.state.newBook.name}
+                                       placeholder="Book title" value={this.state.newBook.title}
+                                       onChange={this.handle_updateBook}/>
+                            </FormGroup>
+                            <FormGroup>
+                                <Label for="name">Description</Label>
+                                <Input type="description" name="description" id="description"
+                                       placeholder="Book description" value={this.state.newBook.description}
                                        onChange={this.handle_updateBook}/>
                             </FormGroup>
                             <FormGroup>
@@ -170,20 +187,28 @@ class AddBookForm extends Component{
                                 <Input type="select" name="select" id="exampleSelect"
                                        onChange={this.handle_updateBook}>
                                     {this.state.categories.map((category, index) =>
-                                        <option value={category._id}>{category.name}</option>
+                                        <option value={category.data.id}>{category.data.name}</option>
                                     )}
                                 </Input>
                             </FormGroup>
                             <FormGroup>
-                                <Label for="exampleSelect">Select Author</Label>
-                                <Input type="select" name="select1" id="exampleSelect"
-
+                                <Label for="exampleSelect">Author Name</Label>
+                                <Input name="select1" id="exampleSelect" value={this.state.newBook.author}
                                        onChange={this.handle_updateBook}>
-                                    {this.state.authors.map((author, index) =>
-                                        <option value={author._id}>
-                                            {author.firstName +" "+ author.lastName}
-                                        </option>
-                                    )}
+                                </Input>
+                            </FormGroup>
+                            <FormGroup>
+                                <Label for="num_of_book">Number of books</Label>
+                                <Input type="number" min={0} name="num_of_book" id="num_of_book"
+                                       onChange={this.handle_updateBook} value={this.state.newBook.NumberOfBook}
+                                >
+                                </Input>
+                            </FormGroup>
+                            <FormGroup>
+                                <Label for="lease_per_day">lease per day</Label>
+                                <Input type="number" min={0} name="lease_per_day" id="lease_per_day"
+                                       onChange={this.handle_updateBook} value={this.state.newBook.leasePerDay}
+                                >
                                 </Input>
                             </FormGroup>
                             <FormGroup>
@@ -209,40 +234,53 @@ class AddBookForm extends Component{
                     <ModalHeader toggle={this.handling_modal}>Edit Book</ModalHeader>
                     <ModalBody>
                          <Form>
-                            <FormGroup>
-                                <Label for="name">Edit Book name</Label>
+                             {/*----------------------*/}
+                             <FormGroup>
+                                <Label for="name">Edit Book title</Label>
                                 <Input type="name" name="name" id="name"
-                                       placeholder="Edit Book name"
-                                       value={this.state.newBook.name}
+                                       placeholder="Edit Book title"
+                                       value={this.state.newBook.title}
                                        onChange={this.handle_updateBook}/>
                             </FormGroup>
+
                             <FormGroup>
+                                <Label for="name">Description</Label>
+                                <Input type="description" name="description" id="description"
+                                       placeholder="Book description" value={this.state.newBook.description}
+                                       onChange={this.handle_updateBook}/>
+                            </FormGroup>
+
+                             <FormGroup>
                                 <Label for="exampleSelect">Edit Category</Label>
-                                <Input value={this.state.newBook.categoryId} type="select" name="select" id="exampleSelect"
+                                <Input value={this.state.newBook.category_id} type="select" name="select" id="exampleSelect"
                                        onChange={this.handle_updateBook}>
                                     {this.state.categories.map((category, index) =>
-                                        <option value={category._id}>{category.name}</option>
+                                        <option value={category.data.id}>{category.data.name}</option>
                                     )}
                                 </Input>
                             </FormGroup>
+
                             <FormGroup>
-                                <Label for="exampleSelect">Edit Author</Label>
-                                <Input type="select" name="select1" id="exampleSelect"
-                                       value={this.state.newBook.authorId}
+                                <Label for="exampleSelect">Edit Author Name</Label>
+                                <Input type="select1" name="select1" id="exampleSelect"
+                                       value={this.state.newBook.author}
                                        onChange={this.handle_updateBook}>
-                                    {this.state.authors.map((author, index) =>
-                                        <option value={author._id}>
-                                            {author.firstName +" "+ author.lastName}
-                                        </option>
-                                    )}
+                                </Input>
+                            </FormGroup>
+
+                             <FormGroup>
+                                <Label for="num_of_book">edit Number of books</Label>
+                                <Input type="number" min={0} name="num_of_book" id="num_of_book"
+                                       onChange={this.handle_updateBook} value={this.state.newBook.NumberOfBook}
+                                >
                                 </Input>
                             </FormGroup>
                             <FormGroup>
-                                <Label for="exampleFile">Edit Image</Label>
-                                <Input type="file" name="file" id="exampleFile"
-                                       onChange={this.handle_updateBook}
-                                       // onChange= {this.onChange}
-                                       />
+                                <Label for="lease_per_day">edit lease per day</Label>
+                                <Input type="number" min={0} name="lease_per_day" id="lease_per_day"
+                                       onChange={this.handle_updateBook} value={this.state.newBook.leasePerDay}
+                                >
+                                </Input>
                             </FormGroup>
                         </Form>
 
@@ -278,7 +316,7 @@ class AddBookForm extends Component{
                             <th>{book.description}</th>
                             <th>{book.author}</th>
                             <th key={book.id}>
-                                <img src={"http://localhost:8001/api/books/"+book.image}
+                                <img src={"http://localhost:8001/image/"+book.image}
                                      width="50" height="50" alt="error image"/>
                             </th>
                             <th>{book.NumberOfBook}</th>
