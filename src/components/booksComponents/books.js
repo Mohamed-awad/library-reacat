@@ -4,6 +4,7 @@ import axios from "axios";
 import Categories from '../categoryComponents/categories';
 import Search from './searchOrder'
 import '../../Styles/main.css'
+import GetCategories from "../../service/category/category";
 
 class BooksAdmin extends Component {
 
@@ -40,9 +41,11 @@ class BooksAdmin extends Component {
             window.location = "http://localhost:3000/";
         }
 
+
         //get all category
-        const allBook = axios.get('http://127.0.0.1:8001/api/categories/')
+        const allBook = GetCategories()
             .then(res => {
+                console.log(res.data.data);
                 const books = res.data.data.map(data => {
                     return data.books;
 
@@ -54,6 +57,7 @@ class BooksAdmin extends Component {
                 let bookShow = allbooks.map(book => {
                     return {...book, "isFavourite": false};
                 });
+                console.log(bookShow);
                 if (res.data) {
                     this.setState({
                         categories: res.data.data,
@@ -82,21 +86,21 @@ class BooksAdmin extends Component {
             });
 
         // const allBook =
-        // axios.get('http://127.0.0.1:8001/api/books/')
-        //     .then(res => {
-        //         console.log(res.data);
-        //         if (res.data) {
-        //             let bookShow = res.data.map(book => {
-        //                 book.isFavourite = false;
-        //             });
-        //             this.setState({
-        //                 bookShow,
-        //                 books: bookShow,
-        //             });
-        //         } else {
-        //             alert("invalid email or password");
-        //         }
-        //     });
+        axios.get('http://127.0.0.1:8001/api/bookss/')
+            .then(res => {
+                console.log(res.data);
+                if (res.data) {
+                    let bookShow = res.data.map(book => {
+                        book.isFavourite = false;
+                    });
+                    this.setState({
+                        bookShow,
+                        books: bookShow,
+                    });
+                } else {
+                    alert("invalid email or password");
+                }
+            });
 
         Promise.all([myFavorite, allBook]).then((res) => {
             console.log(res);
@@ -110,14 +114,14 @@ class BooksAdmin extends Component {
                         console.log("=====");
                         book.isFavourite = true;
                         return book;
-                    }else {
+                    } else {
                         return book;
                     }
                 })
                 return mybook;
             });
 
-            bookShow = bookShow.map(book=>{
+            bookShow = bookShow.map(book => {
                 return book[0];
             });
             this.setState({
@@ -165,68 +169,76 @@ class BooksAdmin extends Component {
     render() {
         return (
 
-            <div>
-                <Search
-                    bookShow={this.state.bookShow}
-                />
+            <div className='row'>
 
-                <Categories
-                    catego={this.state.categories}
-                    onClick={this.handelShowCategory}
-                />
-                <div className='row main'>
-                    {this.state.bookShow.map((book) =>
-                        <div className="thumb offset-2 col-3" key={book.id}>
-                            <div>
-                                <img style={{width: 200, height: 100}}
-                                     src={"http://localhost:8001/" + book.image}
-                                />
-                                <div>
-                                    <div>
-                                        <Link to={'/books/' + book.id}>
-                                            {book.title}
-                                        </Link>
-                                    </div>
-                                    <div>
-                                        {book.description}
-                                    </div>
-                                    <p>
-                                        {book.NumberOfBook} copy available
-                                    </p>
-                                </div>
+                <div className='col-2'>
 
+                    <Categories
+                        catego={this.state.categories}
+                        onClick={this.handelShowCategory}
+                    />
+                </div>
+
+                <div className='row col-10'>
+                    <div className='row col-12'>
+                        <Search
+                            bookShow={this.state.bookShow}
+                        />
+                    </div>
+                    <div className='col-12'>
+                        {this.state.bookShow.map((book) =>
+                            <div className="thumb offset-2 col-3" key={book.id}>
                                 <div>
-                                    <div className='row col-12'>
-                                        {book.isFavourite ?
-                                            <button className='col-12 btn btn-lg btn-primary'
-                                                    onClick={() => this.addToFavorite(book.id, this.state.user.id)}
-                                            >
-                                                un favourite
-                                            </button>
-                                            :
-                                            <button className='col-12 btn btn-lg btn-dark'
-                                                    onClick={() => this.addToFavorite(book.id, this.state.user.id)}
-                                            >
-                                                favourite
-                                            </button>
-                                        }
+                                    <img style={{width: 200, height: 100}}
+                                         src={"http://localhost:8001/" + book.image}
+                                    />
+                                    <div>
+                                        <div>
+                                            <Link to={'/books/' + book.id}>
+                                                {book.title}
+                                            </Link>
+                                        </div>
+                                        <div>
+                                            {book.description}
+                                        </div>
+                                        <p>
+                                            {book.NumberOfBook} copy available
+                                        </p>
                                     </div>
-                                    <div className='col-12'>
-                                        <input type='number' value={this.state.numOfDays}
-                                               onChange={this.handelNumOfDays}
-                                        />
-                                    </div>
-                                    <div className='col-12'>
-                                        <button className='btn btn-lg btn-primary'
-                                                onClick={() => this.handelLeased(book.id, this.state.user.id)}
-                                        >
-                                            lesead
-                                        </button>
+
+                                    <div>
+                                        <div className='row col-12'>
+                                            {book.isFavourite ?
+                                                <button className='col-12 btn btn-lg btn-primary'
+                                                        onClick={() => this.addToFavorite(book.id, this.state.user.id)}
+                                                >
+                                                    un favourite
+                                                </button>
+                                                :
+                                                <button className='col-12 btn btn-lg btn-dark'
+                                                        onClick={() => this.addToFavorite(book.id, this.state.user.id)}
+                                                >
+                                                    favourite
+                                                </button>
+                                            }
+                                        </div>
+                                        <div className='col-12'>
+                                            <input type='number' value={this.state.numOfDays}
+                                                   onChange={this.handelNumOfDays}
+                                            />
+                                        </div>
+                                        <div className='col-12'>
+                                            <button className='btn btn-lg btn-primary'
+                                                    onClick={() => this.handelLeased(book.id, this.state.user.id)}
+                                            >
+                                                lesead
+                                            </button>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                    )}
+                        )}
+                    </div>
                 </div>
             </div>
         );

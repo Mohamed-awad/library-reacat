@@ -39,33 +39,32 @@ class Search extends Component {
 
     render() {
         return (
-            <div className='row '>
-                <div className='col-8 row'>
-                    <div className='offset-3 col-5'>
-
-                        <input className="btn btn-lg"
-                               type="text"
-                               placeholder="Search"
-                               aria-label="Search"
-                               onChange={this.updateSearch}
-                               value={this.state.searchValue}
-                        />
-                    </div>
-                    <div className="col-3">
-                        <button className="col-10 btn btn-primary btn-lg"
-                                onClick={this.searchForResult}
-                        >
-                            Search
-                        </button>
-                    </div>
+            <div className='row col-12'>
+                <div className='col-4'>
+                    <input className="btn btn-lg"
+                           type="text"
+                           placeholder="Search"
+                           aria-label="Search"
+                           onChange={this.updateSearch}
+                           value={this.state.searchValue}
+                    />
                 </div>
-                <div className='row col-4'>
+                <div className="col-2">
+                    <button className=" btn btn-primary btn-lg"
+                            onClick={this.searchForResult}
+                    >
+                        Search
+                    </button>
+                </div>
+                <div className='offset-2 col-2'>
                     <button
-                        className="offset-6 btn btn-primary btn-lg mr-1"
+                        className=" btn btn-primary btn-lg"
                         onClick={this.handelArrangeRate}
                     >
                         Rate
                     </button>
+                </div>
+                <div className='col-2'>
                     <button
                         className="btn btn-primary btn-lg"
                         onClick={this.handelArrangeLates}

@@ -18,8 +18,13 @@ class UrsLogin extends React.Component {
     componentDidMount() {
 
         let token = localStorage.getItem("TOKEN");
+        let user = JSON.parse(localStorage.getItem("USER"));
         if (token) {
-            window.location = "http://localhost:3000/books";
+            if (user.isAdmin){
+                window.location = "http://localhost:3000/AdminControl";
+            }else {
+                window.location = "http://localhost:3000/books";
+            }
         }
     }
 
@@ -53,20 +58,23 @@ class UrsLogin extends React.Component {
                     console.log(res.data.user);
                     localStorage.setItem("TOKEN", res.data.token);
                     localStorage.setItem("USER", JSON.stringify(res.data.user));
-                    //     if(res.data.user.isadmin){
-                    //         window.location = "http://localhost:3000/admin";
-                    //     }else{
                     if (res.data.user.isActive) {
-                        window.location = "http://localhost:3000/books";
+                        if(res.data.user.isAdmin){
+                            window.location = "http://localhost:3000/AdminControl";
+                        }else{
+                            window.location = "http://localhost:3000/books";
+                        }
                     } else {
                         alert("sorry you are inactive")
                     }
-                    //     }
+
                 } else {
                     alert("invalid email or password");
                     window.location = "http://localhost:3000/";
                 }
-            });
+            }).catch((err)=>{
+                console.log(err);
+        });
     }
 
     render() {
@@ -75,7 +83,6 @@ class UrsLogin extends React.Component {
                 <div className='row '>
                     <div className='col-lg-12 '>
                         <div className="logo">
-
                             <div className=" UsrLogin loginDivSize">
                                 <FormGroup className=" UsrLogin mb-2 mr-sm-2 mb-sm-0">
                                     <Input className="loginInput"
