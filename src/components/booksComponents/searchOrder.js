@@ -9,16 +9,15 @@ class Search extends Component {
         super(props);
         this.state = {
             searchValue: '',
+            bookShow:[],
         }
     };
 
     handelArrangeRate = () => {
-        console.log(this.props.bookShow);
         const bookShow = this.props.bookShow.sort((a, b) =>
             (a.created_at > b.created_at) ? 1 : ((b.created_at > a.created_at) ? -1 : 0)
         );
         this.setState({bookShow});
-        console.log(this.props.bookShow);
 
     };
     handelArrangeLates = () => {
@@ -26,15 +25,25 @@ class Search extends Component {
         const bookShow = this.props.bookShow.sort((a, b) =>
             (a.created_at < b.created_at) ? 1 : ((b.created_at < a.created_at) ? -1 : 0)
         );
-        console.log(bookShow);
         this.setState({bookShow});
     };
 
     updateSearch = (event) => {
-        console.log(event.target.value);
         this.setState({
             searchValue: event.target.value,
         })
+    };
+    searchForResult = (e) => {
+        let value = this.state.searchValue
+        let bookShow = this.props.bookShow.filter(book => {
+            if(book.title === value || book.author === value){
+                return book
+            }
+        });
+        this.setState({
+            bookShow,
+        });
+        console.log(bookShow);
     };
 
     render() {

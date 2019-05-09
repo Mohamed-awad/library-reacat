@@ -21,7 +21,7 @@ class Nav extends Component {
     componentDidMount() {
         let token = localStorage.getItem("TOKEN");
         let user = JSON.parse(localStorage.getItem("USER"));
-        console.log(user);
+
         this.setState({
             user,
         });

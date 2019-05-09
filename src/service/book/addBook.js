@@ -1,19 +1,18 @@
-import Cookies from "universal-cookie";
-
 export default function AddBook(data) {
-  console.log(data);
   const formData = new FormData();
-  formData.append('name', data.name);
-  formData.append('categoryId', data.categoryId);
-  formData.append('authorId', data.authorId);
-  formData.append('photo', data.photo);
-
-  return fetch('http://localhost:4000/books/', {
+  formData.append('title', data.title);
+  formData.append('category_id', data.category_id);
+  formData.append('author', data.author);
+  formData.append('image', data.image);
+  formData.append('description', data.description);
+  formData.append('leasePerDay', data.leasePerDay);
+  formData.append('NumberOfBook', data.NumberOfBook);
+  return fetch('http://localhost:8001/api/bookss/', {
     // body: JSON.stringify(data),
     method: 'POST',
     body: formData,
     headers: {
-      "Authorization": new Cookies().get('token'),
+      "Authorization": localStorage.getItem('TOKEN'),
     },
   }).then(response =>
       response.json()

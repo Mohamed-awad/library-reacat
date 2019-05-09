@@ -16,7 +16,6 @@ class BooksAdmin extends Component {
             bookShow: [],
             myFavorite: [],
             user: [],
-            numOfDays: '',
         };
     }
 
@@ -45,8 +44,7 @@ class BooksAdmin extends Component {
         //get all category
         const allBook = GetCategories()
             .then(res => {
-                console.log(res.data.data);
-                const books = res.data.data.map(data => {
+                const books = res.data.map(data => {
                     return data.books;
 
                 });
@@ -55,15 +53,15 @@ class BooksAdmin extends Component {
                     allbooks = [...allbooks, ...book]
                 });
                 let bookShow = allbooks.map(book => {
-                    return {...book, "isFavourite": false};
+                    return {...book, isFavourite: false, numOfDays: 1};
                 });
-                console.log(bookShow);
                 if (res.data) {
                     this.setState({
-                        categories: res.data.data,
+                        categories: res.data,
                         bookShow,
                         books: bookShow,
                     });
+                    console.log(this.state.categories);
                 } else {
                     alert("invalid email or password");
                 }
@@ -72,7 +70,13 @@ class BooksAdmin extends Component {
             });
 
         //get favorite book for user
-        const myFavorite = axios.get('http://127.0.0.1:8001/api/' + user.id + '/favourites')
+        const myFavorite = axios.get('http://127.0.0.1:8001/api/' + user.id + '/favourites', {
+            method: 'GET',
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": localStorage.getItem('TOKEN'),
+            },
+        })
             .then(res => {
                 if (res.data) {
                     this.setState({
@@ -86,82 +90,122 @@ class BooksAdmin extends Component {
             });
 
         // const allBook =
-        axios.get('http://127.0.0.1:8001/api/bookss/')
-            .then(res => {
-                console.log(res.data);
-                if (res.data) {
-                    let bookShow = res.data.map(book => {
-                        book.isFavourite = false;
-                    });
-                    this.setState({
-                        bookShow,
-                        books: bookShow,
-                    });
-                } else {
-                    alert("invalid email or password");
-                }
-            });
+        // axios.get('http://127.0.0.1:8001/api/bookss/')
+        //     .then(res => {
+        //         console.log(res.data);
+        //         if (res.data) {
+        //             let bookShow = res.data.map(book => {
+        //                 book.isFavourite = false;
+        //             });
+        //             this.setState({
+        //                 bookShow,
+        //                 books: bookShow,
+        //             });
+        //         } else {
+        //             alert("invalid email or password");
+        //         }
+        //     });
 
-        Promise.all([myFavorite, allBook]).then((res) => {
-            console.log(res);
-            const myFavorite = this.state.myFavorite;
-            const bookShowState = this.state.bookShow;
-            console.log(myFavorite);
-            console.log(bookShowState);
-            let bookShow = bookShowState.map(book => {
-                let mybook = myFavorite.map(fav => {
-                    if (book.id === fav.id) {
-                        console.log("=====");
-                        book.isFavourite = true;
-                        return book;
-                    } else {
-                        return book;
-                    }
-                })
-                return mybook;
-            });
+        Promise.all([myFavorite, allBook])
+            .then(() => {
+                const myFavorite = this.state.myFavorite;
+                const bookShowState = this.state.bookShow;
 
-            bookShow = bookShow.map(book => {
-                return book[0];
-            });
-            this.setState({
-                bookShow,
+                let bookShow = bookShowState.map(book => {
+                    let mybook = myFavorite.map(fav => {
+                        if (book.id === fav.id) {
+                            book.isFavourite = true;
+                            return book;
+                        } else {
+                            return book;
+                        }
+                    })
+                    return mybook;
+                });
 
+                bookShow = bookShow.map(book => {
+                    return book[0];
+                });
+                this.setState({
+                    bookShow,
+
+                });
             });
-        });
     }
 
     addToFavorite = (id, userId, isFavorite) => {
-        console.log(id + "  " + userId);
-        //==========================================
-        isFavorite = true;
+
+        let bookShow = this.state.bookShow.map(book => {
+            if (book.id === id) {
+                if (isFavorite) {
+                    book.isFavourite = true;
+                    return book;
+                } else {
+                    book.isFavourite = false;
+                    return book;
+                }
+            } else {
+                return book
+            }
+        });
+        this.setState(bookShow);
+
         if (isFavorite) {
-            axios.post('http://127.0.0.1:8001/api/' + userId + '/favourite/' + id)
-                .then(res => {
-                    if (res.data) {
-                        console.log(res.data);
-                    } else {
-                        alert("invalid email or password");
-                    }
-                });
+            const NewFav = {
+                'user_id': userId,
+                'book_id': id,
+            };
+            axios.post('http://127.0.0.1:8001/api/' + userId + '/favourite/' + id, NewFav, {
+                method: 'POST',
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": localStorage.getItem('TOKEN'),
+                },
+            }).then(res => {
+                console.log(res);
+            });
         } else {
-            axios.delete('http://127.0.0.1:8001/api/' + userId + '/favourite/' + id)
-                .then(res => {
-                    if (res.data) {
-                        console.log(res.data);
-                    } else {
-                        alert("invalid email or password");
-                    }
-                });
+            axios.delete('http://127.0.0.1:8001/api/' + userId + '/favourite/' + id, {
+                method: 'DELETE',
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": localStorage.getItem('TOKEN'),
+                },
+            }).then(res => {
+                console.log(res);
+            });
         }
 
 
     };
-    handelNumOfDays = (e) => {
+    handelNumOfDays = (e, id) => {
         let numOfDays = e.target.value;
-        this.setState({numOfDays})
+        let bookShow = this.state.bookShow.map(book => {
+            if (book.id === id) {
+                book.numOfDays = numOfDays;
+                return book;
+            } else {
+                return book
+            }
+        });
+        this.setState(bookShow);
     };
-    handelLeased = () => {
+    handelLeased = (bookId, userId, leased) => {
+        const NewLeased = {
+            'user_id': userId,
+            'book_id': bookId,
+            'leased': leased,
+        };
+        console.log(NewLeased);
+        axios.post('http://127.0.0.1:8001/api/booklease', NewLeased, {
+            method: 'POST',
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": localStorage.getItem('TOKEN'),
+            },
+        }).then(res => {
+            console.log(res);
+        });
 
     };
 
@@ -193,15 +237,15 @@ class BooksAdmin extends Component {
                                          src={"http://localhost:8001/" + book.image}
                                     />
                                     <div>
-                                        <div>
+                                        <div className='text-center align-middle'>
                                             <Link to={'/books/' + book.id}>
                                                 {book.title}
                                             </Link>
                                         </div>
-                                        <div>
+                                        <div className='text-center align-middle'>
                                             {book.description}
                                         </div>
-                                        <p>
+                                        <p className='text-center align-middle'>
                                             {book.NumberOfBook} copy available
                                         </p>
                                     </div>
@@ -210,29 +254,48 @@ class BooksAdmin extends Component {
                                         <div className='row col-12'>
                                             {book.isFavourite ?
                                                 <button className='col-12 btn btn-lg btn-primary'
-                                                        onClick={() => this.addToFavorite(book.id, this.state.user.id)}
+                                                        onClick={() => this.addToFavorite(book.id, this.state.user.id, false)}
                                                 >
                                                     un favourite
                                                 </button>
                                                 :
                                                 <button className='col-12 btn btn-lg btn-dark'
-                                                        onClick={() => this.addToFavorite(book.id, this.state.user.id)}
+                                                        onClick={() => this.addToFavorite(book.id, this.state.user.id, true)}
                                                 >
                                                     favourite
                                                 </button>
                                             }
                                         </div>
+                                        {book.NumberOfBook ?
+                                            <div className='col-12 row'>
+                                                <div className="col-4">
+                                                    <button>
+                                                        {book.numOfDays * book.leasePerDay}
+                                                    </button>
+                                                </div>
+                                                <div className="col-8">
+                                                    <input type='number'
+                                                           value={book.numOfDays}
+                                                           min={1}
+                                                           onChange={(e) => this.handelNumOfDays(e, book.id)}
+                                                    />
+                                                </div>
+                                            </div> :
+                                            <div>
+                                                <h4>not avilaple for now </h4>
+                                            </div>
+                                        }
                                         <div className='col-12'>
-                                            <input type='number' value={this.state.numOfDays}
-                                                   onChange={this.handelNumOfDays}
-                                            />
-                                        </div>
-                                        <div className='col-12'>
-                                            <button className='btn btn-lg btn-primary'
-                                                    onClick={() => this.handelLeased(book.id, this.state.user.id)}
-                                            >
-                                                lesead
-                                            </button>
+                                            {book.NumberOfBook > 0 ?
+
+                                                <button className='btn btn-lg btn-primary'
+                                                        onClick={() => this.handelLeased(book.id, this.state.user.id, book.numOfDays * book.leasePerDay)}
+                                                >
+                                                    lesead
+                                                </button>
+                                                :
+                                                <p>no book</p>
+                                            }
                                         </div>
                                     </div>
                                 </div>

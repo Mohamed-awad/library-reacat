@@ -1,11 +1,9 @@
-import Cookies from "universal-cookie";
-
 export default function DeleteBook(id) {
-  return fetch('http://localhost:4000/books/'+id, {
+  return fetch('http://localhost:8001/api/bookss/'+id, {
     method: 'DELETE',
     headers: {
       "Content-Type": "application/json",
-      "Authorization": new Cookies().get('token'),
+      "Authorization": localStorage.getItem('TOKEN'),
     },
   }).then(response =>
       response.json()

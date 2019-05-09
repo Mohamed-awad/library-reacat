@@ -43,15 +43,14 @@ class App extends React.Component {
                     <Route path='/books/:id' exact component={BookProfile}/>
                     <Route path='/books/:id' exact component={Footer}/>
 
+                    <Route path='/favourite/' exact component={Nav}/>
+                    <Route path='/favourite/' exact component={FavorietBooks}/>
+                    <Route path='/favourite/' exact component={Footer}/>
 
-
-                    <Route path='/favourite/:id' exact component={Nav}/>
-                    <Route path='/favourite/:id' exact component={FavorietBooks}/>
-                    <Route path='/favourite/:id' exact component={Footer}/>
-
-                    <Route path='/AdminControl' exact component={NavAdmin}/>
+                    {/*<Route path='/AdminControl' exact component={NavAdmin}/>*/}
                     <Route path="/AdminControl" exact component={AdminControl}/>
-                    <Route path='/AdminControl' exact component={Footer}/>
+                    {/*<Route path='/AdminControl' exact component={Footer}/>*/}
+
                 </div>
             </BrowserRouter>
         );

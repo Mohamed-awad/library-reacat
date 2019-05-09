@@ -9,29 +9,31 @@ class BookProfile extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            currentBook: '',
+            comments: [],
             bookId: this.props.match.params.id,
-            author: '',
-            category: '',
-            reviews: [],
             newReview: '',
         };
     }
 
     componentDidMount() {
-        axios.get('http://127.0.0.1:8001/api/books/' + this.state.bookId)
-            .then(res => {
-                console.log(res.data);
-                if (res.data) {
-                    console.log(res.data);
-                    this.setState({
-                        currentBook: res.data.data,
-                    });
-                    console.log(this.state.currentBook);
-                } else {
-                    alert("invalid email or password");
-                }
-            });
+        let user = JSON.parse(localStorage.getItem("USER"));
+        //current user
+        this.setState({
+            user,
+        });
+        axios.get('http://127.0.0.1:8001/api/bookss/' + this.props.match.params.id, {
+            method: 'GET',
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": localStorage.getItem('TOKEN'),
+            },
+        }).then(res => {
+            if (res.data) {
+                this.setState({
+                    comments: res.data.data,
+                });
+            }
+        });
     }
 
     handle_update_review = (event) => {
@@ -40,47 +42,88 @@ class BookProfile extends Component {
         });
     };
 
-
-    handle_add_review = () => {
+    handle_add_review = (bookId, userId) => {
         const newReview = {
             'body': this.state.newReview,
-            'book_id': Number(this.state.bookId),
-            'user_id': 6,
+            'book_id': Number(bookId),
+            'user_id': userId,
         };
-        console.log(newReview);
-        axios.post('http://127.0.0.1:8001/api/comments/' + this.state.bookId, newReview)
-            .then(res => {
-                console.log(res);
-            })
-            .catch(err => {
-                console.log(err);
+        axios.post('http://127.0.0.1:8001/api/comments/' + bookId + '/' + userId, newReview, {
+            method: 'POST',
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": localStorage.getItem('TOKEN'),
+            },
+        }).then(res => {
+            let comments = [...this.state.comments, res.data.data]
+            this.setState({
+                comments,
+                newReview: '',
             });
+        }).catch(err => {
+            console.log(err);
+        });
+    };
+
+    handelRemoveComment = (id) => {
+        const comments = this.state.comments.filter(comment => {
+            return comment.id != id
+        });
+        this.setState({comments});
+        axios.delete('http://127.0.0.1:8001/api/comments/' + id, {
+            method: 'DELETE',
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": localStorage.getItem('TOKEN'),
+            },
+        }).then(res => {
+        }).catch(err => {
+            console.log(err);
+        });
     };
 
     render() {
+        const comments = this.state.comments.map(comment =>
+            <div className="offset-1 row mt-2" key={comment.id}>
+                <div className='btn-lg btn-dark col-9 border-dark'>
+                    {comment.body}
+                </div>
+                <div className="col-2">
+                    {comment.user_id == this.state.user.id ?
+                        <button className=" col-12 btn btn-lg btn-primary"
+                                onClick={() => this.handelRemoveComment(comment.id)}
+                        >
+                            delete
+                        </button>
+                        :
+                        <span></span>
+                    }
+                </div>
+            </div>
+        )
         return (
             <div className="container-fluid">
                 <div className="row BookPage ">
                     <div className="col-2 BookImg">
                         <div className="Img">
                             <img style={{width: 150, height: 200}}
-                                 src={"http://localhost:8001/" + this.state.currentBook.image}
+                                 src={"http://localhost:8001/" + this.state.comments.image}
                                  alt="Card image cap"/>
                         </div>
                     </div>
 
                     <div className="offset-1 mb-2">
                         <h1>
-                            {this.state.currentBook.title}
+                            {this.state.comments.title}
                         </h1>
                         <p>
-                            {this.state.currentBook.description}
+                            {this.state.comments.description}
                         </p>
                         <h4>
-                            {this.state.currentBook.NumberOfBook} copy available
+                            {this.state.comments.NumberOfBook} copy available
                         </h4>
                         <div>
-                            {this.state.currentBook.NumberOfBook > 0 ?
+                            {this.state.comments.NumberOfBook > 0 ?
                                 <button className='btn btn-lg btn-primary'>
                                     Lease
                                 </button>
@@ -103,17 +146,18 @@ class BookProfile extends Component {
                     </div>
                     <div className='row mt-3'>
                         <button className='offset-1 col-10 btn-lg btn-primary'
-                                onClick={this.handle_add_review}
+                                onClick={() => this.handle_add_review(this.state.bookId, this.state.user.id)}
                         >
                             add Your Review
                         </button>
                     </div>
 
                 </div>
-                <Bookcommnets
-                    bookData={this.state.bookId}
-                    comments={this.state.currentBook}
-                />
+                {comments}
+                {/*<Bookcommnets*/}
+                {/*bookData={this.state.bookId}*/}
+                {/*comments={this.state.comments}*/}
+                {/*/>*/}
             </div>
         );
     }

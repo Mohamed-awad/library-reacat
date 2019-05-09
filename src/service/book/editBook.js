@@ -1,28 +1,24 @@
-import Cookies from "universal-cookie";
-
 export default function EditBook(data) {
   console.log(data);
   const formData = new FormData();
-  formData.append('name', data.name);
-  if(data.categoryId._id) {
-    data.categoryId = data.categoryId._id;
-  }
-  if(data.authorId._id) {
-    data.authorId = data.authorId._id;
-  }
-  formData.append('categoryId', data.categoryId);
-  formData.append('authorId', data.authorId);
-  formData.append('photo', data.photo);
+  formData.append('title', data.title);
+  formData.append('category_id', data.category_id);
+  formData.append('description', data.description);
+  formData.append('author', data.author);
+  formData.append('NumberOfBook', data.NumberOfBook);
+  formData.append('leasePerDay', data.leasePerDay);
 
-  return fetch('http://localhost:4000/books/'+data._id, {
+
+  return fetch('http://localhost:8001/api/bookss/' + data.id, {
     method: 'PUT',
-    body: formData,
+    body: JSON.stringify(data),
     headers: {
-      "Authorization": new Cookies().get('token'),
+      "Content-Type": "application/json",
+      "Authorization": localStorage.getItem("TOKEN"),
     },
   }).then(response =>
       response.json()
   ).catch(error => {
-      console.log('data will be send later');
+    console.log('data will be send later');
   })
 }
