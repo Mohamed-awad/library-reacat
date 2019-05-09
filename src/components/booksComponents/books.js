@@ -5,6 +5,8 @@ import Categories from '../categoryComponents/categories';
 import Search from './searchOrder'
 import '../../Styles/main.css'
 import GetCategories from "../../service/category/category";
+import EditBook from "../../service/book/editBook";
+import GetBooks from "../../service/book/book";
 
 class BooksAdmin extends Component {
 
@@ -89,23 +91,6 @@ class BooksAdmin extends Component {
                 console.log(err);
             });
 
-        // const allBook =
-        // axios.get('http://127.0.0.1:8001/api/bookss/')
-        //     .then(res => {
-        //         console.log(res.data);
-        //         if (res.data) {
-        //             let bookShow = res.data.map(book => {
-        //                 book.isFavourite = false;
-        //             });
-        //             this.setState({
-        //                 bookShow,
-        //                 books: bookShow,
-        //             });
-        //         } else {
-        //             alert("invalid email or password");
-        //         }
-        //     });
-
         Promise.all([myFavorite, allBook])
             .then(() => {
                 const myFavorite = this.state.myFavorite;
@@ -119,7 +104,7 @@ class BooksAdmin extends Component {
                         } else {
                             return book;
                         }
-                    })
+                    });
                     return mybook;
                 });
 
@@ -190,12 +175,30 @@ class BooksAdmin extends Component {
         });
         this.setState(bookShow);
     };
-    handelLeased = (bookId, userId, leased) => {
+    handelLeased = (bookId, userId, leased, title, catId, des, auth, num, leas) => {
         const NewLeased = {
             'user_id': userId,
             'book_id': bookId,
             'leased': leased,
         };
+        const NewBook = {
+            'title': title,
+            'category_id': catId,
+            'description': des,
+            'author': auth,
+            'NumberOfBook': num,
+            'leasePerDay': leas,
+        };
+        let bookShow = this.state.bookShow.map(book => {
+            if (book.id === bookId) {
+                book.NumberOfBook = book.NumberOfBook - 1;
+                return book;
+            } else {
+                return book;
+            }
+        });
+
+        console.log(NewBook);
         console.log(NewLeased);
         axios.post('http://127.0.0.1:8001/api/booklease', NewLeased, {
             method: 'POST',
@@ -205,7 +208,22 @@ class BooksAdmin extends Component {
             },
         }).then(res => {
             console.log(res);
+            this.setState({bookShow});
+            console.log(this.state.bookShow);
+
         });
+        axios.put('http://127.0.0.1:8001/api/bookss'+bookId, NewBook, {
+            method: 'PUT',
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": localStorage.getItem('TOKEN'),
+            },
+        }).then(res => {
+            console.log(res);
+        })
+        // EditBook(NewBook).then(data => {
+        //     console.log(data);
+        // });
 
     };
 
@@ -266,7 +284,7 @@ class BooksAdmin extends Component {
                                                 </button>
                                             }
                                         </div>
-                                        {book.NumberOfBook ?
+                                        {book.NumberOfBook > 0 ?
                                             <div className='col-12 row'>
                                                 <div className="col-4">
                                                     <button>
@@ -289,7 +307,15 @@ class BooksAdmin extends Component {
                                             {book.NumberOfBook > 0 ?
 
                                                 <button className='btn btn-lg btn-primary'
-                                                        onClick={() => this.handelLeased(book.id, this.state.user.id, book.numOfDays * book.leasePerDay)}
+                                                        onClick={() => this.handelLeased(book.id,
+                                                            this.state.user.id,
+                                                            book.numOfDays * book.leasePerDay,
+                                                            book.title,
+                                                            book.category_id,
+                                                            book.description,
+                                                            book.author,
+                                                            book.NumberOfBook,
+                                                            book.leasePerDay)}
                                                 >
                                                     lesead
                                                 </button>

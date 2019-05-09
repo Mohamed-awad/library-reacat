@@ -15,10 +15,6 @@ class FavorietBooks extends Component {
     }
 
     componentDidMount() {
-        // let cookies = new Cookies();
-        // if (!cookies.get('token')) {
-        //   window.location = "http://localhost:3000/";
-        // }
 
         let token = localStorage.getItem("TOKEN");
         let user = JSON.parse(localStorage.getItem("USER"));
@@ -44,7 +40,6 @@ class FavorietBooks extends Component {
             let booksFav = books.map(book => {
                 return {...book, numOfDays: 1};
             });
-            console.log(booksFav);
             if (res.data) {
                 this.setState({
                     booksFav: booksFav,
@@ -70,14 +65,13 @@ class FavorietBooks extends Component {
                 "Content-Type": "application/json",
                 "Authorization": localStorage.getItem('TOKEN'),
             },
-        }).then(res => {
-            console.log(res);
+        }).then(() => {
             this.setState({
                 booksFav,
             });
 
         });
-    }
+    };
 
     handelNumOfDays = (e, id) => {
         let numOfDays = e.target.value;
