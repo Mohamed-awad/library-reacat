@@ -9,16 +9,15 @@ class Search extends Component {
         super(props);
         this.state = {
             searchValue: '',
+            bookShow:[],
         }
     };
 
     handelArrangeRate = () => {
-        console.log(this.props.bookShow);
         const bookShow = this.props.bookShow.sort((a, b) =>
             (a.created_at > b.created_at) ? 1 : ((b.created_at > a.created_at) ? -1 : 0)
         );
         this.setState({bookShow});
-        console.log(this.props.bookShow);
 
     };
     handelArrangeLates = () => {
@@ -26,46 +25,55 @@ class Search extends Component {
         const bookShow = this.props.bookShow.sort((a, b) =>
             (a.created_at < b.created_at) ? 1 : ((b.created_at < a.created_at) ? -1 : 0)
         );
-        console.log(bookShow);
         this.setState({bookShow});
     };
 
     updateSearch = (event) => {
-        console.log(event.target.value);
         this.setState({
             searchValue: event.target.value,
         })
     };
+    // searchForResult = (e) => {
+    //     let value = this.state.searchValue
+    //     let bookShow = this.props.bookShow.filter(book => {
+    //         if(book.title === value || book.author === value){
+    //             return book
+    //         }
+    //     });
+    //     this.setState({
+    //         bookShow,
+    //     });
+    //     console.log(bookShow);
+    // };
 
     render() {
         return (
-            <div className='row '>
-                <div className='col-8 row'>
-                    <div className='offset-3 col-5'>
-
-                        <input className="btn btn-lg"
-                               type="text"
-                               placeholder="Search"
-                               aria-label="Search"
-                               onChange={this.updateSearch}
-                               value={this.state.searchValue}
-                        />
-                    </div>
-                    <div className="col-3">
-                        <button className="col-10 btn btn-primary btn-lg"
-                                onClick={this.searchForResult}
-                        >
-                            Search
-                        </button>
-                    </div>
+            <div className='row col-12'>
+                <div className='col-4'>
+                    <input className="btn btn-lg"
+                           type="text"
+                           placeholder="Search"
+                           aria-label="Search"
+                           onChange={this.updateSearch}
+                           value={this.state.searchValue}
+                    />
                 </div>
-                <div className='row col-4'>
+                <div className="col-2">
+                    <button className=" btn btn-primary btn-lg"
+                            onClick={this.props.onClick}
+                    >
+                        Search
+                    </button>
+                </div>
+                <div className='offset-2 col-2'>
                     <button
-                        className="offset-6 btn btn-primary btn-lg mr-1"
+                        className=" btn btn-primary btn-lg"
                         onClick={this.handelArrangeRate}
                     >
                         Rate
                     </button>
+                </div>
+                <div className='col-2'>
                     <button
                         className="btn btn-primary btn-lg"
                         onClick={this.handelArrangeLates}

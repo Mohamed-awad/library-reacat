@@ -11,14 +11,10 @@ import {
     TabPane
 } from "reactstrap";
 import classnames from 'classnames';
-import Admin_Modal from "./AddCategoryForm";
 import AddCategoryForm from "./AddCategoryForm";
 import AddBookForm from "./AddBookForm";
 import AddUserForm from "./AddUserForm";
 import AddManagersForm from "./AddManagersForm";
-import GetBooks from "../../service/book/book";
-import GetCategories from "../../service/category/category";
-import GetAuthors from "../../service/author";
 
 
 class AdminControl extends Component {

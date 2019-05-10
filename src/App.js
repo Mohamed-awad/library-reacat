@@ -1,6 +1,9 @@
 import React from 'react';
 import './App.css';
 import {BrowserRouter, Route} from "react-router-dom";
+import { library } from '@fortawesome/fontawesome-svg-core'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faStroopwafel } from '@fortawesome/free-solid-svg-icons'
 
 import Nav from "./components/sharecompo/Nav";
 import NavAdmin from "./components/sharecompo/NavAdmin";
@@ -20,6 +23,8 @@ import AdminControl from "./components/adminPanal/AdminControl";
 
 import FavorietBooks from './components/booksComponents/favoriet'
 
+
+library.add(faStroopwafel)
 
 class App extends React.Component {
 
@@ -45,6 +50,9 @@ class App extends React.Component {
                     <Route path='/books/:id' exact component={BookProfile}/>
                     <Route path='/books/:id' exact component={Footer}/>
 
+                    <Route path='/favourite/' exact component={Nav}/>
+                    <Route path='/favourite/' exact component={FavorietBooks}/>
+                    <Route path='/favourite/' exact component={Footer}/>
 
                     <Route path='/favourite/:id' exact component={Nav}/>
                     <Route path='/favourite/:id' exact component={FavorietBooks}/>
@@ -53,8 +61,8 @@ class App extends React.Component {
                     <Route path='/profits' exact component={Chart}/>
 
                     <Route path="/AdminControl" exact component={NavAdmin}/>
+                    <Route path='/AdminControl' exact component={NavAdmin}/>
                     <Route path="/AdminControl" exact component={AdminControl}/>
-                    {/*<Route path='/AdminControl' exact component={Footer}/>*/}
                 </div>
             </BrowserRouter>
         );

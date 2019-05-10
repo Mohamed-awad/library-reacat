@@ -1,3 +1,5 @@
+import React from "react";
+
 export default function getCategories() {
   return fetch('http://localhost:8001/api/categories/', {
     method: 'GET',
@@ -5,5 +7,9 @@ export default function getCategories() {
       "Content-Type": "application/json",
       "Authorization": localStorage.getItem('TOKEN'),
     },
-  }).then(response => response.json())
+  }).then(response =>
+  {
+    return response.json()
+  })
 }
+

@@ -1,7 +1,5 @@
 import React, {Component} from 'react';
 import '../../App.css';
-import Cookies from 'universal-cookie';
-import {Link} from "react-router-dom";
 
 class Nav extends Component {
 
@@ -21,13 +19,16 @@ class Nav extends Component {
     componentDidMount() {
         let token = localStorage.getItem("TOKEN");
         let user = JSON.parse(localStorage.getItem("USER"));
-        console.log(token);
-        console.log(user);
+
         this.setState({
             user,
         });
         if (!token) {
             window.location = "http://localhost:3000/";
+        }else{
+            if (user.isAdmin){
+                window.location = "http://localhost:3000/AdminControl";
+            }
         }
     }
 
@@ -58,7 +59,7 @@ class Nav extends Component {
                             <li className="nav-item avatar">
                                 <a className="nav-link p-0" href="#">
                                     <img src="https://mdbootstrap.com/img/Photos/Avatars/avatar-5.jpg"
-                                         className="rounded-circle z-depth-0" alt="avatar image" height="35"/>
+                                         className="nav-img rounded-circle z-depth-0" alt="avatar image" height="35"/>
                                 </a>
                             </li>
                             <li className="nav-item ">
