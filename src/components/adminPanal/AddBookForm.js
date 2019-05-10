@@ -316,7 +316,7 @@ class AddBookForm extends Component {
                   <th>{book.description}</th>
                   <th>{book.author}</th>
                   <th key={book.id}>
-                    <img src={"http://localhost:8001/image/" + book.image}
+                    <img className={"nav-img1"} src={"http://localhost:8001/image/" + book.image}
                          width="50" height="50" alt="error image"/>
                   </th>
                   <th>{book.NumberOfBook}</th>
