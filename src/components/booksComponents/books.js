@@ -159,12 +159,14 @@ class BooksAdmin extends Component {
                     books = bookShow;
                 }
                 let allbooks = books.map(book => {
-                    return book[0];
+                    return book[0][0];
                 });
+                console.log(allbooks);
                 this.setState({
                     bookShow: allbooks,
                     books: allbooks,
                 });
+                console.log(this.state.books);
             });
     }
 
