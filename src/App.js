@@ -49,9 +49,10 @@ class App extends React.Component {
                     <Route path='/favourite/:id' exact component={Nav}/>
                     <Route path='/favourite/:id' exact component={FavorietBooks}/>
                     <Route path='/favourite/:id' exact component={Footer}/>
+                    <Route path='/profits' exact component={NavAdmin}/>
                     <Route path='/profits' exact component={Chart}/>
 
-                    {/*<Route path='/AdminControl' exact component={NavAdmin}/>*/}
+                    <Route path="/AdminControl" exact component={NavAdmin}/>
                     <Route path="/AdminControl" exact component={AdminControl}/>
                     {/*<Route path='/AdminControl' exact component={Footer}/>*/}
                 </div>

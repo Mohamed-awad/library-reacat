@@ -10,11 +10,12 @@ class Chart extends Component{
     constructor(props){
         super(props);
         this.state = {
+            user: [],
             chartData : { 
                 labels:[],
                 datasets:[{
                     label:"Weekly Profit",
-                    data:[19,2,4,99],
+                    data:[],
                     backgroundColor:[
                         'rgba(255,99,132,0.6)',
                         'rgba(54,162,235,0.6)',
@@ -29,29 +30,47 @@ class Chart extends Component{
     
 
     componentDidMount() {
-        axios.get('http://127.0.0.1:8000/api/profits/')
-            .then(res => {
+        let token = localStorage.getItem("TOKEN");
+        let user = JSON.parse(localStorage.getItem("USER"));
+        this.setState({
+            user,
+        });
+        console.log(user);                  
+        if (!token) {
+            window.location = "http://localhost:3000/";
+        }   
+        console.log(user.isAdmin==false)               
+        if (user.isAdmin) {
+            window.location = "http://localhost:3000/";
+        }
+        axios.get('http://127.0.0.1:8001/api/profits/',{
+            method: 'GET',
+            headers: {
+              "Content-Type": "application/json",
+              "Authorization": localStorage.getItem('TOKEN'),
+            },  
+        }).then(res => {
                 if (res.data) {
                     let result = res.data.profit;
                     let weeksNames = [];
                     let resultArray = [];
-                    for (let i =0; i<result.length; i++){
-                        resultArray.push(Number(result[i].weekly_profit));
-                    }
+                    resultArray = result.map(d=>{
+                        return Number(d.weekly_profit);
+                    })
+                    
+                    console.log(resultArray) 
                     for (let i =0; i<result.length; i++){
                         weeksNames.push(result[i].NumofWeek.toString().replace(/(\d{4})/g, '$1 ').replace(/(^\s+|\s+$)/,''));
                     }
-                    let chartData = Object.assign({}, this.state.chartData);
-                    chartData.datasets.data = resultArray;
-                    chartData.labels = weeksNames;
+                    let NewchartData = {...this.state.chartData};
+                    NewchartData.datasets[0].data = resultArray;
+                    NewchartData.labels = weeksNames;
                     this.setState({
-                        chartData
+                        chartData:NewchartData
                     });
                 } else {
                     alert("No Profits");
                 }
-                console.log(this.state.chartData.datasets.data);
-                console.log(this.state.chartData.labels);
             });
     }
 
