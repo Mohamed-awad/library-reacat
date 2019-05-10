@@ -39,10 +39,7 @@ class Chart extends Component{
         if (!token) {
             window.location = "http://localhost:3000/";
         }   
-        console.log(user.isAdmin==false)               
-        if (user.isAdmin) {
-            window.location = "http://localhost:3000/";
-        }
+        console.log(user.isAdmin==false);
         axios.get('http://127.0.0.1:8001/api/profits/',{
             method: 'GET',
             headers: {
