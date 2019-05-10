@@ -1,10 +1,10 @@
 import React , {Component} from 'react';
 import {Button, Col, Form, FormGroup, Input, Label, ModalBody, ModalFooter, ModalHeader, Table} from "reactstrap";
 import {Modal} from "reactstrap"
-import GetCategories from "../../service/category";
-import DeleteCategory from '../../service/delCategory';
-import AddCategory from "../../service/addCategory";
-import EditCategory from "../../service/editCategory";
+import GetCategories from "../../service/category/category";
+import DeleteCategory from '../../service/category/delCategory';
+import AddCategory from "../../service/category/addCategory";
+import EditCategory from "../../service/category/editCategory";
 
 class AddCategoryForm extends Component {
 

@@ -15,6 +15,7 @@ import UsrSignUp from "./components/userComponents/UsrSignUp";
 import UserPage from "./components/userComponents/userPage";
 
 import Chart from "./components/chartComponent/chart";
+import AdminControl from "./components/adminPanal/AdminControl";
 
 
 import FavorietBooks from './components/booksComponents/favoriet'
@@ -44,15 +45,15 @@ class App extends React.Component {
                     <Route path='/books/:id' exact component={BookProfile}/>
                     <Route path='/books/:id' exact component={Footer}/>
 
-                    <Route path='/admin' exact component={NavAdmin}/>
-                    <Route path='/admin' exact component={Footer}/>
 
                     <Route path='/favourite/:id' exact component={Nav}/>
                     <Route path='/favourite/:id' exact component={FavorietBooks}/>
                     <Route path='/favourite/:id' exact component={Footer}/>
-
                     <Route path='/profits' exact component={Chart}/>
 
+                    {/*<Route path='/AdminControl' exact component={NavAdmin}/>*/}
+                    <Route path="/AdminControl" exact component={AdminControl}/>
+                    {/*<Route path='/AdminControl' exact component={Footer}/>*/}
                 </div>
             </BrowserRouter>
         );
