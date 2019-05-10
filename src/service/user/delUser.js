@@ -1,11 +1,9 @@
-import Cookies from "universal-cookie";
-
-export default function DeleteAuthor(id) {
-  return fetch('http://localhost:4000/authors/'+id, {
+export default function DeleteUser(id) {
+  return fetch('http://localhost:8001/api/users/'+id, {
     method: 'DELETE',
     headers: {
       "Content-Type": "application/json",
-      "Authorization": new Cookies().get('token'),
+      "Authorization": localStorage.getItem('TOKEN'),
     },
   }).then(response =>
       response.json()

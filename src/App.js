@@ -52,7 +52,7 @@ class App extends React.Component {
                     <Route path='/favourite/' exact component={FavorietBooks}/>
                     <Route path='/favourite/' exact component={Footer}/>
 
-                    {/*<Route path='/AdminControl' exact component={NavAdmin}/>*/}
+                    <Route path='/AdminControl' exact component={NavAdmin}/>
                     <Route path="/AdminControl" exact component={AdminControl}/>
                     {/*<Route path='/AdminControl' exact component={Footer}/>*/}
 
