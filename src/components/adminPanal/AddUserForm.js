@@ -54,10 +54,7 @@ class AddUserForm extends Component {
         newUser: data,
       });
     }
-    console.log(event.target.name);
-    console.log(event.target.value);
     if (event.target.name === "name") {
-
       this.setState({
         newUser: {...this.state.newUser, name: event.target.value,}
       });
@@ -74,6 +71,11 @@ class AddUserForm extends Component {
       console.log(event.target.value);
       this.setState({
         newUser: {...this.state.newUser, phone: event.target.value,}
+      });
+    } else if (event.target.name === "isActive") {
+      console.log(event.target.value);
+      this.setState({
+        newUser: {...this.state.newUser, isActive: event.target.value,}
       });
     } else if (event.target.name === "ssn") {
       console.log(event.target.value);
@@ -103,11 +105,13 @@ class AddUserForm extends Component {
   }
 
   handle_EditUser = () => {
+
     console.log(this.state.newUser);
     EditUser(this.state.newUser);
     let users = this.state.users.map((user) => {
       if (this.state.newUser.id == user.id) {
-        return this.state.newUser;
+        let u = parseInt(this.state.newUser.isActive, 10);
+        return {...this.state.newUser, isActive: u};
       }
       return user;
     });
@@ -209,9 +213,13 @@ class AddUserForm extends Component {
                        placeholder="SSN"/>
               </FormGroup>
               <FormGroup>
-                <Input type="password" name="password" id="Password"
-                       onChange={this.handle_updateUser} value={this.state.newUser.password}
-                       placeholder="Password"/>
+                  <Label for="exampleSelect">Select active</Label>
+                  <Input type="select" name="isActive" id="isActive"
+                         onChange={this.handle_updateUser}
+                  >
+                    <option key={0} value={1}>Active</option>
+                    <option key={1} value={0}>unActive</option>
+                  </Input>
               </FormGroup>
             </ModalBody>
             <ModalFooter>
