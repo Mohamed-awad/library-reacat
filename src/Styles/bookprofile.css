@@ -1,51 +1,15 @@
-.ReviewInfo{
-    margin: 0.5% 0 0 3%;
-    color: red;
-    padding: 0% 3% ;
-    border: 1px solid #c4c4c4;
-    width: 95%;
-}
-
-.BookPage{
-    /*border: 1px solid red;*/
-    width: 100%;
-    margin: 1% 0 2% 0;
-    padding: 1% 3% 0;
-}
-
 
 /*.BookPage p{*/
     /*margin-top: 50px;*/
 
 /*}*/
-.BookImg{
-    width: 15%;
-    margin-right: 2%;
-}
-.BookImg .Img{
-    margin-bottom: 10px;
-}
 
-.BookData{
-    width: 50%;
-    /*border: 5px solid red;*/
-}
-.HeaderReview h2{
-    border: 1px solid black;
-    position: relative;
+.Img img{
     width: 100%;
-    top: -130%;
-    padding: 5px;
-    background: white;
-    border-radius: 10px;
+    height: 100%;
+    padding: 0;
 }
 
-.reviews{
-    margin-bottom: 40px;
-    padding: 3% 2% 0 2% ;
-    border: 1px solid black;
-    border-radius: 15px;
-}
 textarea{
     resize: none;
     overflow: auto;

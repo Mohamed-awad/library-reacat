@@ -33,18 +33,18 @@ class Search extends Component {
             searchValue: event.target.value,
         })
     };
-    searchForResult = (e) => {
-        let value = this.state.searchValue
-        let bookShow = this.props.bookShow.filter(book => {
-            if(book.title === value || book.author === value){
-                return book
-            }
-        });
-        this.setState({
-            bookShow,
-        });
-        console.log(bookShow);
-    };
+    // searchForResult = (e) => {
+    //     let value = this.state.searchValue
+    //     let bookShow = this.props.bookShow.filter(book => {
+    //         if(book.title === value || book.author === value){
+    //             return book
+    //         }
+    //     });
+    //     this.setState({
+    //         bookShow,
+    //     });
+    //     console.log(bookShow);
+    // };
 
     render() {
         return (
@@ -60,7 +60,7 @@ class Search extends Component {
                 </div>
                 <div className="col-2">
                     <button className=" btn btn-primary btn-lg"
-                            onClick={this.searchForResult}
+                            onClick={this.props.onClick}
                     >
                         Search
                     </button>

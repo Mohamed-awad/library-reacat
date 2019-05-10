@@ -21,7 +21,9 @@ class Categories extends Component {
 
         return (
             <div className="sidenav">
-                <p>All books</p>
+                <p onClick={() => {
+                    this.props.onClick()
+                }} >All books</p>
                 {category}
             </div>
         );

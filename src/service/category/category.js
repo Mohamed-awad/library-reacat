@@ -1,3 +1,5 @@
+import React from "react";
+
 export default function getCategories() {
   return fetch('http://localhost:8001/api/categories/', {
     method: 'GET',
@@ -7,7 +9,7 @@ export default function getCategories() {
     },
   }).then(response =>
   {
-    console.log(response);
     return response.json()
   })
 }
+

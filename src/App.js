@@ -1,6 +1,9 @@
 import React from 'react';
 import './App.css';
 import {BrowserRouter, Route} from "react-router-dom";
+import { library } from '@fortawesome/fontawesome-svg-core'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faStroopwafel } from '@fortawesome/free-solid-svg-icons'
 
 import Nav from "./components/sharecompo/Nav";
 import NavAdmin from "./components/sharecompo/NavAdmin";
@@ -18,6 +21,8 @@ import AdminControl from "./components/adminPanal/AdminControl";
 
 import FavorietBooks from './components/booksComponents/favoriet'
 
+
+library.add(faStroopwafel)
 
 class App extends React.Component {
 

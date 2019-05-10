@@ -5,6 +5,7 @@ import Categories from '../categoryComponents/categories';
 import Search from './searchOrder'
 import '../../Styles/main.css'
 import GetCategories from "../../service/category/category";
+import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 import EditBook from "../../service/book/editBook";
 import GetBooks from "../../service/book/book";
 
@@ -16,17 +17,26 @@ class BooksAdmin extends Component {
             books: [],
             categories: [],
             bookShow: [],
+            allBooks: [],
             myFavorite: [],
+            myLeased: [],
             user: [],
+            searchValue: '',
         };
     }
 
     //show category
     handelShowCategory = (id) => {
-        const bookShow = this.state.books.filter(book => {
-            return book.category_id === id;
-        });
-        this.setState({bookShow});
+        if (id) {
+            const bookShow = this.state.books.filter(book => {
+                return book.category_id === id;
+            });
+            this.setState({bookShow});
+        } else {
+            const bookShow = this.state.books;
+            this.setState({bookShow});
+        }
+
     };
 
 
@@ -37,7 +47,6 @@ class BooksAdmin extends Component {
         this.setState({
             user,
         });
-
         if (!token) {
             window.location = "http://localhost:3000/";
         }
@@ -47,7 +56,10 @@ class BooksAdmin extends Component {
         const allBook = GetCategories()
             .then(res => {
                 const books = res.data.map(data => {
-                    return data.books;
+                    let book = data.books.map(book => {
+                        return book.data;
+                    });
+                    return book;
 
                 });
                 let allbooks = []
@@ -55,7 +67,7 @@ class BooksAdmin extends Component {
                     allbooks = [...allbooks, ...book]
                 });
                 let bookShow = allbooks.map(book => {
-                    return {...book, isFavourite: false, numOfDays: 1};
+                    return {...book, isFavourite: false, numOfDays: 1, isLeased: false};
                 });
                 if (res.data) {
                     this.setState({
@@ -63,7 +75,6 @@ class BooksAdmin extends Component {
                         bookShow,
                         books: bookShow,
                     });
-                    console.log(this.state.categories);
                 } else {
                     alert("invalid email or password");
                 }
@@ -78,42 +89,81 @@ class BooksAdmin extends Component {
                 "Content-Type": "application/json",
                 "Authorization": localStorage.getItem('TOKEN'),
             },
-        })
-            .then(res => {
-                if (res.data) {
-                    this.setState({
-                        myFavorite: res.data.data,
-                    });
-                } else {
-                    alert("invalid email or password");
-                }
-            }).catch(err => {
-                console.log(err);
-            });
+        }).then(res => {
+            if (res.data) {
+                this.setState({
+                    myFavorite: res.data.data,
+                });
+            } else {
+                alert("invalid email or password");
+            }
+        }).catch(err => {
+            console.log(err);
+        });
 
-        Promise.all([myFavorite, allBook])
+        const myLeased = axios.get('http://127.0.0.1:8001/api/' + user.id + '/booklease', {
+            method: 'GET',
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": localStorage.getItem('TOKEN'),
+            },
+        }).then(res => {
+            console.log(res);
+            if (res.data) {
+                this.setState({
+                    myLeased: res.data.data,
+                });
+                console.log(this.state.myLeased);
+            } else {
+                alert("invalid email or password");
+            }
+        }).catch(err => {
+            console.log(err);
+        });
+
+        Promise.all([myFavorite, allBook, myLeased])
             .then(() => {
                 const myFavorite = this.state.myFavorite;
+                const myLeased = this.state.myLeased;
                 const bookShowState = this.state.bookShow;
-
-                let bookShow = bookShowState.map(book => {
-                    let mybook = myFavorite.map(fav => {
-                        if (book.id === fav.id) {
-                            book.isFavourite = true;
-                            return book;
-                        } else {
-                            return book;
-                        }
+                let bookShow = [];
+                if (myFavorite.length > 0) {
+                    bookShow = bookShowState.map(book => {
+                        let mybook = myFavorite.map(fav => {
+                            if (book.id === fav.id) {
+                                book.isFavourite = true;
+                                return book;
+                            } else {
+                                return book;
+                            }
+                        });
+                        return mybook;
                     });
-                    return mybook;
-                });
-
-                bookShow = bookShow.map(book => {
+                } else {
+                    bookShow = bookShowState;
+                }
+                let books = [];
+                if (myLeased.length > 0) {
+                    books = bookShow.map(book => {
+                        let mybook = myLeased.map(leased => {
+                            if (book.id === leased.book_id) {
+                                book.isLeased = true;
+                                return book;
+                            } else {
+                                return book;
+                            }
+                        });
+                        return mybook;
+                    });
+                } else {
+                    books = bookShow;
+                }
+                let allbooks = books.map(book => {
                     return book[0];
                 });
                 this.setState({
-                    bookShow,
-
+                    bookShow: allbooks,
+                    books: allbooks,
                 });
             });
     }
@@ -212,7 +262,7 @@ class BooksAdmin extends Component {
             console.log(this.state.bookShow);
 
         });
-        axios.put('http://127.0.0.1:8001/api/bookss'+bookId, NewBook, {
+        axios.put('http://127.0.0.1:8001/api/bookss' + bookId, NewBook, {
             method: 'PUT',
             headers: {
                 "Content-Type": "application/json",
@@ -226,6 +276,39 @@ class BooksAdmin extends Component {
         // });
 
     };
+    handelArrangeRate = () => {
+        const bookShow = this.state.bookShow.sort((a, b) =>
+            (a.created_at > b.created_at) ? 1 : ((b.created_at > a.created_at) ? -1 : 0)
+        );
+        this.setState({bookShow});
+
+    };
+    handelArrangeLates = () => {
+        console.log(this.state.bookShow);
+        const bookShow = this.state.bookShow.sort((a, b) =>
+            (a.created_at < b.created_at) ? 1 : ((b.created_at < a.created_at) ? -1 : 0)
+        );
+        this.setState({bookShow});
+    };
+
+    updateSearch = (event) => {
+        this.setState({
+            searchValue: event.target.value,
+        })
+    };
+    searchForResult = () => {
+        let value = this.state.searchValue;
+        console.log(value);
+        let bookShow = this.state.books.filter(book => {
+            if (book.title === value || book.author === value) {
+                return book
+            }
+        });
+        this.setState({
+            bookShow,
+        });
+        console.log(bookShow);
+    };
 
 
     render() {
@@ -237,90 +320,129 @@ class BooksAdmin extends Component {
 
                     <Categories
                         catego={this.state.categories}
-                        onClick={this.handelShowCategory}
+                        onClick={(e) => this.handelShowCategory(e)}
                     />
                 </div>
 
                 <div className='row col-10'>
                     <div className='row col-12'>
-                        <Search
-                            bookShow={this.state.bookShow}
-                        />
+                        <div className='row col-12'>
+                            <div className='col-4'>
+                                <input className="btn btn-lg"
+                                       type="text"
+                                       placeholder="Search"
+                                       aria-label="Search"
+                                       onChange={this.updateSearch}
+                                       value={this.state.searchValue}
+                                />
+                            </div>
+                            <div className="col-2">
+                                <button className=" btn btn-primary btn-lg"
+                                        onClick={this.searchForResult}
+                                >
+                                    Search
+                                </button>
+                            </div>
+                            <div className='offset-2 col-2'>
+                                <button
+                                    className=" btn btn-primary btn-lg"
+                                    onClick={this.handelArrangeRate}
+                                >
+                                    Rate
+                                </button>
+                            </div>
+                            <div className='col-2'>
+                                <button
+                                    className="btn btn-primary btn-lg"
+                                    onClick={this.handelArrangeLates}
+                                >
+                                    Latest
+                                </button>
+                            </div>
+                        </div>
                     </div>
-                    <div className='col-12'>
+                    <div className='col-12 row'>
                         {this.state.bookShow.map((book) =>
-                            <div className="thumb offset-2 col-3" key={book.id}>
-                                <div>
-                                    <img style={{width: 200, height: 100}}
-                                         src={"http://localhost:8001/" + book.image}
+                            <div className="thumb ml-5 col-2" key={book.id}>
+                                <div className='row'>
+                                    <img
+                                        src={"http://localhost:8001/image/" + book.image}
                                     />
-                                    <div>
-                                        <div className='text-center align-middle'>
+                                    <div className='row col-12'>
+                                        <div className='text-center col-12 align-middle'>
                                             <Link to={'/books/' + book.id}>
-                                                {book.title}
+                                                {book.title} <FontAwesomeIcon icon="stroopwafel"/>
+
                                             </Link>
                                         </div>
-                                        <div className='text-center align-middle'>
+                                        <div className='text-center col-12 align-middle'>
                                             {book.description}
                                         </div>
-                                        <p className='text-center align-middle'>
+                                        <p className='text-center col-12 align-middle'>
                                             {book.NumberOfBook} copy available
                                         </p>
                                     </div>
 
-                                    <div>
+                                    <div className='row col-12'>
                                         <div className='row col-12'>
                                             {book.isFavourite ?
-                                                <button className='col-12 btn btn-lg btn-primary'
+                                                <button className='col-12 btn btn-sm btn-primary'
                                                         onClick={() => this.addToFavorite(book.id, this.state.user.id, false)}
                                                 >
-                                                    un favourite
+                                                    un fav
                                                 </button>
                                                 :
-                                                <button className='col-12 btn btn-lg btn-dark'
+                                                <button className='col-12 btn btn-sm btn-dark'
                                                         onClick={() => this.addToFavorite(book.id, this.state.user.id, true)}
                                                 >
-                                                    favourite
+                                                    fav
                                                 </button>
                                             }
                                         </div>
-                                        {book.NumberOfBook > 0 ?
-                                            <div className='col-12 row'>
-                                                <div className="col-4">
-                                                    <button>
-                                                        {book.numOfDays * book.leasePerDay}
-                                                    </button>
+                                        <div className='row '>
+                                            {book.isLeased ?
+                                                <div className='text-center col-12 align-middle'>
+                                                    <p>you leased it</p>
                                                 </div>
-                                                <div className="col-8">
-                                                    <input type='number'
-                                                           value={book.numOfDays}
-                                                           min={1}
-                                                           onChange={(e) => this.handelNumOfDays(e, book.id)}
-                                                    />
-                                                </div>
-                                            </div> :
-                                            <div>
-                                                <h4>not avilaple for now </h4>
-                                            </div>
-                                        }
-                                        <div className='col-12'>
-                                            {book.NumberOfBook > 0 ?
-
-                                                <button className='btn btn-lg btn-primary'
-                                                        onClick={() => this.handelLeased(book.id,
-                                                            this.state.user.id,
-                                                            book.numOfDays * book.leasePerDay,
-                                                            book.title,
-                                                            book.category_id,
-                                                            book.description,
-                                                            book.author,
-                                                            book.NumberOfBook,
-                                                            book.leasePerDay)}
-                                                >
-                                                    lesead
-                                                </button>
-                                                :
-                                                <p>no book</p>
+                                                : [
+                                                    (book.NumberOfBook > 0 ?
+                                                            <div className='row'>
+                                                                <div className='row col-4 text-center align-middle'>
+                                                                    <button className='text-center col-12 align-middle'>
+                                                                        {book.numOfDays * book.leasePerDay}
+                                                                    </button>
+                                                                </div>
+                                                                <div className='row col-8  text-center align-middle'>
+                                                                    <input
+                                                                        className='offset-1 col-11  text-center align-middle'
+                                                                        type='number'
+                                                                        value={book.numOfDays}
+                                                                        min={1}
+                                                                        onChange={(e) => this.handelNumOfDays(e, book.id)}
+                                                                    />
+                                                                </div>
+                                                                <div className="col-12 row">
+                                                                    <button className='col-12 btn btn-sm btn-primary'
+                                                                            onClick={() => this.handelLeased(book.id,
+                                                                                this.state.user.id,
+                                                                                book.numOfDays * book.leasePerDay,
+                                                                                book.title,
+                                                                                book.category_id,
+                                                                                book.description,
+                                                                                book.author,
+                                                                                book.NumberOfBook,
+                                                                                book.leasePerDay)}
+                                                                    >
+                                                                        lesead
+                                                                    </button>
+                                                                </div>
+                                                            </div>
+                                                            :
+                                                            <div className='text-center col-12 align-middle'>
+                                                                <span>no book</span>
+                                                            </div>
+                                                    ),
+                                                ]
                                             }
                                         </div>
                                     </div>
