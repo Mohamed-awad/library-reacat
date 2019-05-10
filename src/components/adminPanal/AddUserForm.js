@@ -5,6 +5,7 @@ import GetUsers from "../../service/user/user";
 import AddUser from "../../service/user/addUser";
 import DeleteUser from "../../service/user/delUser";
 import EditUser from "../../service/user/editUser";
+import Pagination from './Pagination';
 
 class AddUserForm extends Component {
 
@@ -14,9 +15,15 @@ class AddUserForm extends Component {
       modalIsOpen: false,
       users: [],
       newUser: {},
+      pageOfItems: []
     };
     this.handle_modal = this.handle_modal.bind(this);
     this.handling_modal = this.handling_modal.bind(this);
+  }
+
+  onChangePage = (pageOfItems) => {
+    // update state with new page of items
+    this.setState({pageOfItems: pageOfItems});
   }
 
   handle_modal() {
@@ -244,7 +251,7 @@ class AddUserForm extends Component {
             </tr>
             </thead>
             <thead>
-            {this.state.users.map((user, index) =>
+            {this.state.pageOfItems.map((user, index) =>
                 <tr key={user.id}>
                   <th>
                     {user.userName}
@@ -278,9 +285,11 @@ class AddUserForm extends Component {
                 </tr>)}
             </thead>
           </Table>
-
-
-        </div>);
+          <div>
+            <Pagination className={"pagination"} items={this.state.users} onChangePage={this.onChangePage}/>
+          </div>
+        </div>
+    );
   }
 }
 

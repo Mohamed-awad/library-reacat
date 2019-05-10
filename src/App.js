@@ -54,8 +54,6 @@ class App extends React.Component {
 
                     <Route path='/AdminControl' exact component={NavAdmin}/>
                     <Route path="/AdminControl" exact component={AdminControl}/>
-                    {/*<Route path='/AdminControl' exact component={Footer}/>*/}
-
                 </div>
             </BrowserRouter>
         );

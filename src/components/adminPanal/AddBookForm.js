@@ -17,6 +17,7 @@ import DeleteBook from "../../service/book/delBook";
 import GetCategories from "../../service/category/category";
 import AddBook from "../../service/book/addBook";
 import EditBook from "../../service/book/editBook";
+import Pagination from './Pagination';
 
 class AddBookForm extends Component {
 
@@ -28,25 +29,21 @@ class AddBookForm extends Component {
       authors: [],
       newBook: {},
       categories: [],
+      currentBooks: []
     };
     this.handle_modal = this.handle_modal.bind(this);
     this.handling_modal = this.handling_modal.bind(this);
   }
 
+  onChangePage = (currentBooks) => {
+    this.setState({currentBooks: currentBooks});
+  }
 
   handle_modal() {
-    // GetCategories()
-    // .then(data => {
-    //     console.log("1");
-    //   this.setState({
-    //       categories: data.data,
-    //       newBook: {...this.state.newBook, categoryId: data.data[0].id},
-    //   });
-    // }).then(() => {
+
     this.setState(prevState => ({
       modal: !prevState.modal
     }));
-    // });
   }
 
   handle_updateBook = (event) => {
@@ -309,18 +306,18 @@ class AddBookForm extends Component {
             </thead>
 
             <thead>
-            {this.state.books.map((book) =>
-                <tr key={book.id}>
-                  <th>{book.category.name}</th>
-                  <th>{book.title}</th>
-                  <th>{book.description}</th>
-                  <th>{book.author}</th>
-                  <th key={book.id}>
+            {this.state.currentBooks.map((book) =>
+                <tr key={book.data.id}>
+                  <th>{book.data.category.name}</th>
+                  <th>{book.data.title}</th>
+                  <th>{book.data.description}</th>
+                  <th>{book.data.author}</th>
+                  <th key={book.data.id}>
                     <img className={"nav-img1"} src={"http://localhost:8001/image/" + book.image}
                          width="50" height="50" alt="error image"/>
                   </th>
-                  <th>{book.NumberOfBook}</th>
-                  <th>{book.leasePerDay}</th>
+                  <th>{book.data.NumberOfBook}</th>
+                  <th>{book.data.leasePerDay}</th>
                   <th>
                     <button value={JSON.stringify(book)} type="button"
                             className="btn btn-info"
@@ -328,15 +325,18 @@ class AddBookForm extends Component {
                             onClick={this.handling_modal}>Edit
                     </button>
                     {" "}
-                    <button value={book.id} onClick={this.deletRow.bind(this)}
+                    <button value={book.data.id} onClick={this.deletRow.bind(this)}
                             type="button" className="btn btn-danger">Delete
                     </button>
                   </th>
                 </tr>)}
-
             </thead>
           </Table>
-        </div>);
+          <div>
+            <Pagination className={"pagination"} items={this.state.books} onChangePage={this.onChangePage}/>
+          </div>
+        </div>
+    );
   }
 }
 

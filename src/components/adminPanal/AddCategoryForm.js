@@ -5,6 +5,8 @@ import GetCategories from "../../service/category/category";
 import DeleteCategory from '../../service/category/delCategory';
 import AddCategory from "../../service/category/addCategory";
 import EditCategory from "../../service/category/editCategory";
+import Pagination from './Pagination';
+
 
 class AddCategoryForm extends Component {
 
@@ -15,9 +17,15 @@ class AddCategoryForm extends Component {
       newCategory: "",
       catDes: "",
       categories: [],
+      pageOfItems: []
     };
     this.handle_modal = this.handle_modal.bind(this);
     this.handling_modal = this.handling_modal.bind(this);
+  }
+
+  onChangePage = (pageOfItems) => {
+    // update state with new page of items
+    this.setState({pageOfItems: pageOfItems});
   }
 
   handle_modal() {
@@ -182,7 +190,7 @@ class AddCategoryForm extends Component {
             </tr>
             </thead>
             <thead>
-            {this.state.categories.map((category) =>
+            {this.state.pageOfItems.map((category) =>
                 <tr key={category.data.id}>
                   <th>{category.data.name}</th>
                   <th key={category.data.id}>
@@ -203,8 +211,10 @@ class AddCategoryForm extends Component {
                 </tr>)}
             </thead>
           </Table>
+          <div>
+            <Pagination className={"pagination"} items={this.state.categories} onChangePage={this.onChangePage}/>
+          </div>
         </div>
-
     );
   }
 }
