@@ -18,7 +18,7 @@ import AddUserForm from "./AddUserForm";
 import AddManagersForm from "./AddManagersForm";
 import GetBooks from "../../service/book/book";
 import GetCategories from "../../service/category/category";
-import GetAuthors from "../../service/author";
+import GetAuthors from "../../service/user/user";
 
 
 class AdminControl extends Component {

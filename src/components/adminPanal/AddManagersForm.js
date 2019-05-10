@@ -1,211 +1,278 @@
-import React , {Component} from 'react';
+import React, {Component} from 'react';
 import {Button, Form, FormGroup, Input, Label, ModalBody, ModalFooter, ModalHeader, Table} from "reactstrap";
 import {Modal} from "reactstrap"
-// import Getmangers from "../service/manger";
-// import Addmanger from "../service/addmanger";
-// import Deletemanger from "../service/delmanger";
-// import Editmanger from "../service/editmanger";
+import GetUsers from "../../service/user/user";
+import AddUser from "../../service/user/addUser";
+import DeleteUser from "../../service/user/delUser";
+import EditUser from "../../service/user/editUser";
 
-class AddManagersForm extends Component {
+class AddUserForm extends Component {
 
-    constructor(props) {
-        super(props);
-        this.state={
-          modalIsOpen: false,
-          mangers: [],
-          newManger: "",
-        };
-        this.handle_modal = this.handle_modal.bind(this);
-        this.handling_modal = this.handling_modal.bind(this);
+  constructor(props) {
+    super(props);
+    this.state = {
+      modalIsOpen: false,
+      users: [],
+      newUser: {},
+    };
+    this.handle_modal = this.handle_modal.bind(this);
+    this.handling_modal = this.handling_modal.bind(this);
+  }
+
+  handle_modal() {
+    this.setState(prevState => ({
+      modal: !prevState.modal
+    }));
+  }
+
+
+  handling_modal(event) {
+    this.handle_updateUser(event);
+    this.setState(prevState => ({
+      EditModal: !prevState.EditModal
+    }));
+  }
+
+  componentDidMount() {
+    GetUsers()
+        .then(data => {
+          let currentUsers = data.data.filter((user) => {
+            return user.isAdmin !== 0;
+          })
+          this.setState({
+            users: currentUsers,
+            newUser: {},
+          })
+        });
+    console.log(this.state.users);
+  }
+
+  handle_updateUser = (event) => {
+    if (event.target.name === "edit") {
+      let data = JSON.parse(event.target.value);
+      this.setState({
+        newUser: data,
+      });
     }
-    handle_modal() {
-        this.setState(prevState => ({
-            modal: !prevState.modal
-        }));
-    }
+    console.log(event.target.name);
+    console.log(event.target.value);
+    if (event.target.name === "name") {
 
-
-    handling_modal(event) {
-      this.handle_updateManager(event);
-        this.setState(prevState => ({
-            EditModal: !prevState.EditModal
-        }));
-    }
-    componentDidMount(){
-    //   Getmangers()
-    //   .then(data => {
-    //     this.setState({
-    //         mangers: data,
-    //     })
-    //   });
-    }
-
-    handle_updateManager =(event)=>{
-    //   if(event.target.name === "edit") {
-    //       let data = JSON.parse(event.target.value);
-    //         this.setState({
-    //           newMangers: data,
-    //         });
-    //     }
-    //   if(event.target.name === "name") {
-    //     this.setState({
-    //         newMangers: {...this.state.newMangers, name: event.target.value,}
-    //       });
-    //     } else if(event.target.name === "file") {
-    //         let path = event.target.files[0];
-    //         console.log(path);
-    //         this.setState({
-    //             newMangers: {...this.state.newMangers, photo: path,}
-    //         });
-    //     }
-
-    }
-    handle_addManager =()=>{
-        if(!this.state.newMangers.lastName ||
-            (/^ *$/.test(this.state.newMangers.lastName)) ||
-            (/^$/.test(this.state.newMangers.lastName)) ||
-        !this.state.newmanger.name ) {
-            alert("please enter valid manger first name and valid last name");
-        }
-        else {
-          console.log(this.state.newMangers);
-        //   Addmanger(this.state.newMangers).then(data => {
-        //     console.log(data);
-        //     Getmangers()
-        //         .then(data => {
-        //           this.setState({
-        //             mangers: data,
-        //             newMangers: "",
-        //           });
-        //           alert("New Manager addenewmangerd successfully");
-        //         });
-        //   });
-        }
-    }
-
-    handle_EditManager =()=>{
-        console.log(this.state.newMangers);
-        // Editmanger(this.state.newMangers).then(data => {
-        //   console.log(data);
-        //     Getmangers()
-        //     .then(data => {
-        //         this.setState({
-        //             mangers: data,
-        //             newMangers : "",
-        //         });
-        //     });
-        // });
+      this.setState({
+        newUser: {...this.state.newUser, name: event.target.value,}
+      });
+    } else if (event.target.name === "username") {
+      this.setState({
+        newUser: {...this.state.newUser, userName: event.target.value,}
+      });
+    } else if (event.target.name === "email") {
+      console.log(event.target.value);
+      this.setState({
+        newUser: {...this.state.newUser, email: event.target.value,}
+      });
+    } else if (event.target.name === "phone") {
+      console.log(event.target.value);
+      this.setState({
+        newUser: {...this.state.newUser, phone: event.target.value,}
+      });
+    } else if (event.target.name === "ssn") {
+      console.log(event.target.value);
+      this.setState({
+        newUser: {...this.state.newUser, SSN: event.target.value,}
+      });
+    } else if (event.target.name === "password") {
+      console.log(event.target.value);
+      this.setState({
+        newUser: {...this.state.newUser, password: event.target.value,}
+      });
     }
 
-    deletRow = (index) =>{
-        const mangers = [...this.state.mangers];
-        console.log(mangers[index.target.value]._id);
-        // Deletemanger(mangers[index.target.value]._id).then((data) => {
-        //     console.log(data);
-        //     Getmangers().then(data => {
-        //     this.setState({
-        //       mangers: data,
-        //       newMangers : "",
-        //     });
-        //   });
-        // });
+  }
+  handle_addUser = () => {
+    let NewUser = this.state.newUser;
+    NewUser.isAdmin = 0;
+    AddUser(NewUser).then(data => {
+      console.log(data);
+      let users = [...this.state.users, data.data]
+      this.setState({
+        users,
+        newUser: {},
+      });
+      alert("New User added successfully");
+    });
+  }
 
-    }
+  handle_EditUser = () => {
+    console.log(this.state.newUser);
+    EditUser(this.state.newUser);
+    let users = this.state.users.map((user) => {
+      if (this.state.newUser.id == user.id) {
+        return this.state.newUser;
+      }
+      return user;
+    });
+    this.setState({
+      users,
+      newUser: "",
+    });
+  }
 
-    render() {
-        return (
-            <div>
-                <button onClick={this.handle_modal} className='btn btn-info offset-lg-10  offset-md-10  offset-sm-10  offset-xs-10 add_category'>{this.props.title} +</button>
-                <Modal isOpen={this.state.modal} toggle={this.handle_modal} className={this.props.className}>
-                    <ModalHeader toggle={this.handle_modal}>{this.props.title}</ModalHeader>
-                    <ModalBody>
-                        <Form>
-                            <FormGroup> 
-                                <Input type="name" name="name" id="lname"
-                                onChange={this.handle_updateManager}
-                                       placeholder="Name" />
-                            </FormGroup>
-                            <FormGroup>
-                                <Label for="exampleFile">Upload Image</Label>
-                                <Input type="file" name="file" id="exampleFile"
-                                onChange={this.handle_updateManager}/>
-                            </FormGroup>
-                        </Form>
+  deletRow = (index) => {
+    DeleteUser(index.target.value);
+    let currentUsers = this.state.users.filter((user) => {
+      return user.id != index.target.value;
+    });
+    this.setState({
+      users: currentUsers,
+      newUser: {},
+    });
+    alert("user deleted successfully");
+  }
 
-                    </ModalBody>
-                    <ModalFooter>
-                        <Button color="primary" onClick={this.handle_modal}
-                                onClick={this.handle_addManager} >{this.props.title}</Button>{' '}
-                        <Button color="secondary" onClick={this.handle_modal}>{this.props.cancel}</Button>
-                    </ModalFooter>
-                </Modal>
+  render() {
+    return (
+        <div>
+          <button onClick={this.handle_modal}
+                  className='btn btn-info offset-lg-10  offset-md-10  offset-sm-10  offset-xs-10 add_category'>{this.props.title} +
+          </button>
+          <Modal isOpen={this.state.modal} toggle={this.handle_modal} className={this.props.className}>
+            <ModalHeader toggle={this.handle_modal}>{this.props.title}</ModalHeader>
+            <ModalBody>
+              <Form>
+                <FormGroup>
+                  <Input type="name" name="name" id="name" value={this.state.newUser.name}
+                         onChange={this.handle_updateUser}
+                         placeholder="name"/>
+                </FormGroup>
+                <FormGroup>
+                  <Input type="email" name="email" id="Email" value={this.state.newUser.email}
+                         onChange={this.handle_updateUser}
+                         placeholder="Email"/>
+                </FormGroup>
+                <FormGroup>
+                  <Input type="name" name="username" id="username"
+                         onChange={this.handle_updateUser} value={this.state.newUser.userName}
+                         placeholder="username"/>
+                </FormGroup>
+                <FormGroup>
+                  <Input type="name" name="phone" id="phone"
+                         onChange={this.handle_updateUser} value={this.state.newUser.phone}
+                         placeholder="Phone"/>
+                </FormGroup>
+                <FormGroup>
+                  <Input type="name" name="ssn" id="SSN"
+                         onChange={this.handle_updateUser} value={this.state.newUser.SSN}
+                         placeholder="SSN"/>
+                </FormGroup>
+                <FormGroup>
+                  <Input type="password" name="password" id="Password"
+                         onChange={this.handle_updateUser} value={this.state.newUser.password}
+                         placeholder="Password"/>
+                </FormGroup>
+              </Form>
 
-
-                <Modal isOpen={this.state.EditModal} toggle={this.handling_modal} className={this.props.className}>
-                    <ModalHeader toggle={this.handling_modal}>Edit Manager</ModalHeader>
-                    <ModalBody>
-                        
-                       <FormGroup>
-                            <Input type="name" name="lastname" id="name"
-                                   placeholder="Last Name"
-                                //    value={this.state.newMangers.name}
-                                   onChange={this.handle_updateManager}
-                                   />
-                        </FormGroup>
-                       <FormGroup>
-                                <Label for="exampleFile">Upload Image</Label>
-                                <Input type="file" name="file" id="exampleFile"
-                                onChange={this.handle_updateManager}/>
-                            </FormGroup>
-                    </ModalBody>
-                    <ModalFooter>
-                        <Button onClick={this.handling_modal}
-                                onClick={this.handle_EditManager} color="primary"
-                                 >Edit</Button>{' '}
-                        <Button color="secondary" onClick={this.handling_modal}>Cancel</Button>
-                    </ModalFooter>
-                </Modal>
-
-                <Table>
-                    <thead>
-                    <tr>
-                        <th>User Name</th>
-                        <th>Name</th>
-                        <th>Phone</th>
-                        <th>Ssn</th>
-                        <th>isAdmin</th>
-                        <th>IsActive</th>
-                        <th>Email</th>
-                        <th>Image</th>
-                        <th>Actions</th>
-
-                    </tr>
-                    </thead>
-                    <thead>
-                    {this.state.mangers.map((manger , index) =>
-                        <tr>
-                            <th>{index+1}</th>
-                            <th key={index}>
-                                <img src={"http://localhost:4000/"+manger.photo}
-                                     width="50" height="50" alt="error image"/>
-                            </th>
-                            <th>
-                                {manger.name}
-                            </th>
-                            <th>
-                                <button value={JSON.stringify(manger)} type="button"
-                                        className="btn btn-info" name="edit"
-                                        onClick={this.handling_modal}>Edit</button> {" "}
-
-                                <button value= {index} onClick={this.deletRow.bind(this)}
-                                    type="button" className="btn btn-danger">Delete</button>
-                            </th>
-                        </tr>)}
-                    </thead>
-                </Table>
+            </ModalBody>
+            <ModalFooter>
+              <Button color="primary" onClick={this.handle_modal}
+                      onClick={this.handle_addUser}>{this.props.title}</Button>{' '}
+              <Button color="secondary" onClick={this.handle_modal}>{this.props.cancel}</Button>
+            </ModalFooter>
+          </Modal>
 
 
-            </div>);
-    }
+          <Modal isOpen={this.state.EditModal} toggle={this.handling_modal} className={this.props.className}>
+            <ModalHeader toggle={this.handling_modal}>Edit User</ModalHeader>
+            <ModalBody>
+              <FormGroup>
+                <Input type="name" name="name" id="name" value={this.state.newUser.name}
+                       onChange={this.handle_updateUser}
+                       placeholder="name"/>
+              </FormGroup>
+              <FormGroup>
+                <Input type="email" name="email" id="Email" value={this.state.newUser.email}
+                       onChange={this.handle_updateUser}
+                       placeholder="Email"/>
+              </FormGroup>
+              <FormGroup>
+                <Input type="name" name="username" id="username"
+                       onChange={this.handle_updateUser} value={this.state.newUser.userName}
+                       placeholder="username"/>
+              </FormGroup>
+              <FormGroup>
+                <Input type="name" name="phone" id="phone"
+                       onChange={this.handle_updateUser} value={this.state.newUser.phone}
+                       placeholder="Phone"/>
+              </FormGroup>
+              <FormGroup>
+                <Input type="name" name="ssn" id="SSN"
+                       onChange={this.handle_updateUser} value={this.state.newUser.SSN}
+                       placeholder="SSN"/>
+              </FormGroup>
+              <FormGroup>
+                <Input type="password" name="password" id="Password"
+                       onChange={this.handle_updateUser} value={this.state.newUser.password}
+                       placeholder="Password"/>
+              </FormGroup>
+            </ModalBody>
+            <ModalFooter>
+              <Button onClick={this.handling_modal}
+                      onClick={this.handle_EditUser} color="primary"
+              >Edit</Button>{' '}
+              <Button color="secondary" onClick={this.handling_modal}>Cancel</Button>
+            </ModalFooter>
+          </Modal>
+
+          <Table>
+            <thead>
+            <tr>
+              <th>UserName</th>
+              <th>Name</th>
+              <th>Email</th>
+              <th>Phone</th>
+              <th>SSN</th>
+              <th>IsActive</th>
+              <th>Actions</th>
+
+            </tr>
+            </thead>
+            <thead>
+            {this.state.users.map((user, index) =>
+                <tr key={user.id}>
+                  <th>
+                    {user.userName}
+                  </th>
+                  <th>
+                    {user.name}
+                  </th>
+                  <th>
+                    {user.email}
+                  </th>
+                  <th>
+                    {user.phone}
+                  </th>
+                  <th>
+                    {user.SSN}
+                  </th>
+                  <th>
+                    {user.isActive ? "Active" : "not Active"}
+                  </th>
+                  <th>
+                    <button value={JSON.stringify(user)} type="button"
+                            className="btn btn-info" name="edit"
+                            onClick={this.handling_modal}>Edit
+                    </button>
+                    {" "}
+
+                    <button value={user.id} onClick={this.deletRow.bind(this)}
+                            type="button" className="btn btn-danger">Delete
+                    </button>
+                  </th>
+                </tr>)}
+            </thead>
+          </Table>
+        </div>
+    );
+  }
 }
-export default AddManagersForm;
+
+export default AddUserForm;
