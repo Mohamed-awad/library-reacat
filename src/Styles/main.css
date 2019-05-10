@@ -3,3 +3,8 @@
     font-size: 28px; /* Increased text to enable scrolling */
     padding: 0px 10px;
 }
+
+img{
+    width: 100%;
+    height: 100px;
+}

@@ -20,8 +20,7 @@ class NavAdmin extends Component {
     componentDidMount() {
         let token = localStorage.getItem("TOKEN");
         let user = JSON.parse(localStorage.getItem("USER"));
-        console.log(token);
-        console.log(user);
+
         if (!token) {
             window.location = "http://localhost:3000/";
         }

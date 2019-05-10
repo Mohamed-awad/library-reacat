@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Button, Col, Form, FormGroup, Input, Label, ModalBody, ModalFooter, ModalHeader, Table} from "reactstrap";
+import {Button, FormGroup, Input, ModalBody, ModalFooter, ModalHeader, Table} from "reactstrap";
 import {Modal} from "reactstrap"
 import GetCategories from "../../service/category/category";
 import DeleteCategory from '../../service/category/delCategory';

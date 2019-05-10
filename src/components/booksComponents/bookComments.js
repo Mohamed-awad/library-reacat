@@ -27,6 +27,8 @@ class Bookcommnets extends Component {
         axios.get('http://127.0.0.1:8001/api/books/' + this.state.bookId)
             .then(res => {
                 if (res.data) {
+                    console.log("-------------------------------");
+                    console.log(res.data);
                     this.setState({
                         comments: res.data.data,
                     });

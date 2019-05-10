@@ -2,6 +2,10 @@ import React, {Component} from 'react';
 import '../../Styles/sidebar.css'
 
 class Categories extends Component {
+    componentDidMount() {
+        console.log(this.props.catego);
+    }
+
     render() {
         const category = this.props.catego.map((category, index) =>
             <div className='col-2' key={category.data.id}>
@@ -17,7 +21,9 @@ class Categories extends Component {
 
         return (
             <div className="sidenav">
-                <p>All books</p>
+                <p onClick={() => {
+                    this.props.onClick()
+                }} >All books</p>
                 {category}
             </div>
         );

@@ -18,8 +18,13 @@ class UrsLogin extends React.Component {
     componentDidMount() {
 
         let token = localStorage.getItem("TOKEN");
+        let user = JSON.parse(localStorage.getItem("USER"));
         if (token) {
-            window.location = "http://localhost:3000/books";
+            if (user.isAdmin){
+                window.location = "http://localhost:3000/AdminControl";
+            }else {
+                window.location = "http://localhost:3000/books";
+            }
         }
     }
 
